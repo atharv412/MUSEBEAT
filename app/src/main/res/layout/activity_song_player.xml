@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="20dp"
+    android:gravity="center_horizontal"
+    android:id="@+id/player_main"
+    android:background="@color/black"
+    tools:context=".SongPlayer">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Now Playing"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:id="@+id/nowPlaying"
+        android:visibility="invisible"
+        />
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        tools:text="Song name"
+        android:textColor="@color/white"
+        android:paddingHorizontal="16dp"
+        android:textStyle="bold"
+        android:id="@+id/song_title_text_view"
+        android:layout_gravity="left"/>
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:textSize="21sp"
+        tools:text="Album"
+        android:paddingHorizontal="16dp"
+
+        android:textColor="@color/white"
+        android:layout_marginTop="8dp"
+        android:id="@+id/song_artist_text_view"
+        android:layout_gravity="left"/>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp">
+        <ImageView
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:id="@+id/song_image_view"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"/>
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:id="@+id/song_gif_image_view"
+            android:visibility="invisible"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+    <androidx.media3.ui.PlayerView
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        app:hide_on_touch="false"
+        app:show_timeout="0"
+        app:use_artwork="false"
+        android:background="@color/white"
+        android:id="@+id/player_view"/>
+
+</LinearLayout>

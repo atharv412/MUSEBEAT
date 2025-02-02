@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents">
+        <item name="android:fontFamily">@font/google_sans_regular</item>
+        <item name="colorPrimary">@color/material_dynamic_primary10</item>
+        <item name="colorPrimaryDark">@color/design_default_color_primary_dark</item>
+        <item name="colorAccent">@color/material_dynamic_neutral70</item>
+<!--        <item name="android:fontFamily">@font/GoogleSans-Regular</item>-->
+    </style>
+
+</resources>

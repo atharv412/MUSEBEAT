@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp">
+
+        <!-- Search Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Search"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:fontFamily="@font/google_sans_regular"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="Camera Icon" />
+        </LinearLayout>
+
+        <!-- Search Bar -->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="What do you want to listen to?"
+            android:padding="12dp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#AAAAAA"
+            android:drawablePadding="8dp"
+            android:layout_marginVertical="16dp"
+            android:fontFamily="@font/google_sans_regular"/>
+
+        <!-- Section: Start Browsing -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start browsing"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/google_sans_regular"/>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:rowCount="2"
+            android:columnOrderPreserved="true"
+            android:layout_marginBottom="16dp">
+
+            <!-- Music -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="Music"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_columnWeight="1"
+                android:fontFamily="@font/google_sans_regular"/>
+
+            <!-- Podcasts -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="Podcasts"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_columnWeight="1"
+                android:fontFamily="@font/google_sans_regular"/>
+
+            <!-- Live Events -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="Live Events"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_columnWeight="1"
+                android:fontFamily="@font/google_sans_regular"/>
+
+            <!-- Home of I-Pop -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="Home of I-Pop"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_columnWeight="1"
+                android:fontFamily="@font/google_sans_regular"/>
+        </GridLayout>
+
+        <!-- Discover Something New -->
+        <!--        <TextView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="Discover something new"-->
+        <!--            android:textColor="#FFFFFF"-->
+        <!--            android:textSize="16sp"-->
+        <!--            android:textStyle="bold"-->
+        <!--            android:layout_marginBottom="8dp" />-->
+
+        <!--        <HorizontalScrollView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginBottom="16dp">-->
+
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:orientation="horizontal">-->
+
+        <!--                &lt;!&ndash; Hindi Lofi &ndash;&gt;-->
+        <!--                <ImageView-->
+        <!--                    android:layout_width="150dp"-->
+        <!--                    android:layout_height="200dp"-->
+        <!--                    android:layout_marginEnd="8dp"-->
+        <!--                    android:src="@drawable/hindi_lofi"-->
+        <!--                    android:contentDescription="Hindi Lofi" />-->
+
+        <!--                &lt;!&ndash; Bollywood &ndash;&gt;-->
+        <!--                <ImageView-->
+        <!--                    android:layout_width="150dp"-->
+        <!--                    android:layout_height="200dp"-->
+        <!--                    android:layout_marginEnd="8dp"-->
+        <!--                    android:src="@drawable/bollywood"-->
+        <!--                    android:contentDescription="Bollywood" />-->
+
+        <!--                &lt;!&ndash; Peaceful &ndash;&gt;-->
+        <!--                <ImageView-->
+        <!--                    android:layout_width="150dp"-->
+        <!--                    android:layout_height="200dp"-->
+        <!--                    android:layout_marginEnd="8dp"-->
+        <!--                    android:src="@drawable/peaceful"-->
+        <!--                    android:contentDescription="Peaceful" />-->
+        <!--            </LinearLayout>-->
+        <!--        </HorizontalScrollView>-->
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:clipToPadding="false"
+                android:scrollbars="vertical"
+                android:fontFamily="@font/google_sans_regular"/>
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+</ScrollView>

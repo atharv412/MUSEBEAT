@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/welcome_bg"
+    tools:context=".Welcome">
+
+
+<!--    <FrameLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+
+<!--        <ImageView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+
+<!--            android:scaleType=""-->
+<!--            android:src="@drawable/bg_image_3_2" />-->
+
+<!--    </FrameLayout>-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:text="@string/Welcome"
+        android:textAlignment="center"
+        android:fontFamily="@font/google_sans_regular"
+        android:textColor="#cdd3ff"
+        android:textSize="45sp"
+        android:shadowRadius="2"
+        android:textStyle="bold"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/welcom1_removebg"/>
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:drawablePadding="15dp"
+        android:shadowColor="#57000000"
+        android:shadowDx="4"
+        android:shadowDy="4"
+        android:shadowRadius="2"
+        android:text="@string/musebeat"
+        android:textAlignment="center"
+        android:textColor="#cdd3ff"
+        android:textSize="45sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:fontFamily="@font/google_sans_regular"/>
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="350dp"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="220dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/welcome2_removebg" />
+
+    <Button
+        android:id="@+id/join_us"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="84dp"
+        android:background="@drawable/rounded_button"
+        android:text="@string/join_us"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/google_sans_regular"/>
+
+    <Button
+        android:id="@+id/login"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="50dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:shadowColor="#57000000"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:text="@string/login"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:background="@drawable/rounded_button"
+        android:fontFamily="@font/google_sans_regular"/>
+
+
+
+</RelativeLayout>

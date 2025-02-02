@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Nav Bottom Test</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="playlists">Playlists</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="click_to_login">Click To Login</string>
+    <string name="click_to_register">Click to register</string>
+    <string name="sample_text">Sample Text</string>
+    <string name="musebeat">Musebeat</string>
+    <string name="Welcome">Welcome</string>
+    <string name="register_text">Register Now</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="join_us">Join us</string>
+    <string name="logintext">Login Page</string>
+    <string name="dont">Don\'t have a Account? Please Sign up</string>
+    <string name="TITLE">MUSEBEAT</string>
+    <string name="language_and_region">Langauge\n</string>
+    <string name="storage_emulated_0_download_musebeat">Download Path</string>
+    <string name="category">Categories</string>
+    <string name="English">English</string>
+    <string name="description">Musebeat, a lightweight, free-for-all Spotify Alternative</string>
+</resources>

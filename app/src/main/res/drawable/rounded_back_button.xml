@@ -1,0 +1,7 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="25dp" /> <!-- Adjust the radius as needed -->
+    <solid android:color="@color/material_dynamic_neutral0" /> <!-- Set the background color -->
+    <stroke
+        android:width="2dp"
+        android:color="#FF3700B3" /> <!-- Optional border -->
+</shape>
