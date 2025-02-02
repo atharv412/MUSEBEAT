@@ -24,6 +24,7 @@ class Home:Fragment() {
     private lateinit var categoryAdapter: CategoryAdapter
     private val supaClient=SupabaseClientProvider.client
     private val cat=SupabaseClientProvider.client
+
     
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
