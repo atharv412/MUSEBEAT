@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 
 import io.github.jan.supabase.auth.auth
+import io.github.jan.supabase.auth.exception.AuthRestException
 import io.github.jan.supabase.auth.providers.builtin.Email
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,40 +43,54 @@ class Login : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
 
-        val setEmail=findViewById<TextInputEditText>(R.id.email)
-        val setPassword=findViewById<TextInputEditText>(R.id.password)
-        val loginButton=findViewById<Button>(R.id.loginButton)
-        val textview=findViewById<TextView>(R.id.registerNow)
-        val waiting=findViewById<ProgressBar>(R.id.progressBar)
+        val setEmail = findViewById<TextInputEditText>(R.id.email)
+        val setPassword = findViewById<TextInputEditText>(R.id.password)
+        val loginButton = findViewById<Button>(R.id.loginButton)
+        val textview = findViewById<TextView>(R.id.registerNow)
+        val waiting = findViewById<ProgressBar>(R.id.progressBar)
 
-        textview.setOnClickListener{
-            val intent= Intent(this,Register::class.java)
+        textview.setOnClickListener {
+            val intent = Intent(this, Register::class.java)
             startActivity(intent)
         }
 
         loginButton.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch{
-                val  user1=setEmail.text.toString()
-                val password1=setPassword.text.toString()
+            CoroutineScope(Dispatchers.IO).launch {
+                var user: Unit
+                try {
+                    val user1 = setEmail.text.toString()
+                    val password1 = setPassword.text.toString()
 //                waiting.visibility=View.VISIBLE
-                val user = client.auth.signInWith(Email) {//logins the user and send the user details back
-                    email=user1
-                    password=password1
-                }
-                if(user!=null){//checks if the login is successful if yes move to mainActivity else
-                    withContext(Dispatchers.Main){
+                    user = client.auth.signInWith(Email) {//logins the user and send the user details back
+                            email = user1
+                            password = password1
+                        }
+                    if (user != null) {//checks if the login is successful if yes move to mainActivity else
+                        withContext(Dispatchers.Main) {
 //                        waiting.visibility=View.GONE
-                        val intent=Intent(this@Login,MainActivity ::class.java)
-                        Toast.makeText(this@Login,"Login Successful",Toast.LENGTH_LONG).show()
-                        startActivity(intent)
-                        finish()
+                            val intent = Intent(this@Login, MainActivity::class.java)
+                            Toast.makeText(this@Login, "Login Successful", Toast.LENGTH_LONG).show()
+                            startActivity(intent)
+                            finish()
+                        }
                     }
-                }
-                else{//gives a toast message to the user
+                } catch (e: AuthRestException) {
+                    println("Error: ${e.message}")
 
-                    waiting.visibility=View.GONE
+                    if (e.message?.contains("Invalid login credentials") == true) {
+                        println("Incorrect email or password. Please try again.")
+                        withContext(Dispatchers.Main) {
+                            waiting.visibility = View.GONE
+                            Toast.makeText(
+                                this@Login,
+                                "Login Unsuccessful, check credentials",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    } else {
+                        println("Authentication error: ${e.message}")
+                    }
 
-                    Toast.makeText(this@Login,"Login Unsuccessful, check credentials",Toast.LENGTH_LONG).show()
                 }
             }
         }

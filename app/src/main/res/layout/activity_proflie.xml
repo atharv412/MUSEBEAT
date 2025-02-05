@@ -8,18 +8,15 @@
     android:background="#000000"
     tools:context=".Profile">
 
-    <!-- Back Button -->
-<!--    <ImageView-->
-<!--        android:id="@+id/backButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="16dp"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:src="@drawable/ic_back_24"-->
-<!--        android:contentDescription="Back"-->
-<!--        app:tint="#FFFFFF" />-->
-
-    <!-- Profile Heading -->
+<!--    back button-->
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/round_arrow_back_24"
+        android:layout_marginVertical="20dp"
+        android:layout_marginHorizontal="15dp"
+        android:background="@drawable/custom_layout_shape"/>
     <TextView
         android:id="@+id/profileHeading"
         android:layout_width="wrap_content"
@@ -28,7 +25,7 @@
         android:layout_marginTop="16dp"
         android:text="Profile"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
+        android:textSize="40sp"
         android:textStyle="bold" />
 
     <!-- Profile Image -->
@@ -64,67 +61,199 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
+        android:layout_marginVertical="25dp"
+        android:layout_marginHorizontal="19dp"
         android:text="Edit"
         android:textColor="#8A2BE2"
-        android:textSize="16sp"
+        android:textSize="25sp"
         android:textStyle="bold" />
 
     <!-- Info Block -->
     <LinearLayout
-        android:id="@+id/infoBlock"
+        android:id="@+id/input_fields_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:layout_below="@id/profileName"
-        android:layout_marginTop="32dp"
-        android:background="#1A1A1A"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:elevation="4dp">
+        android:layout_marginTop="16dp"
+        android:paddingHorizontal="10dp"
+        android:orientation="vertical">
 
-        <!-- Email -->
+        <!-- First Name -->
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Email: N/A"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
+            android:text="First Name"
+            android:textColor="#D3D3D3"
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp" />
 
-        <!-- Followers -->
-        <!--        <TextView-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="8dp"-->
-        <!--            android:text="Followers: 0"-->
-        <!--            android:textColor="#FFFFFF"-->
-        <!--            android:textSize="16sp" />-->
+        <EditText
+            android:id="@+id/first_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="David"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:enabled="false"/>
 
-        <!-- Birthday -->
+        <!-- Last Name -->
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Birthday: Not born"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
+            android:text="Last Name"
+            android:textColor="#D3D3D3"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp" />
 
-        <!-- Country -->
+        <!-- Mobile Number -->
+        <EditText
+            android:id="@+id/last_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_background"
+            android:hint="Ottario"
+            android:padding="12dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="16sp"
+            android:enabled="false"/>
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Country: India (IN)"
+            android:text="Mobile No."
+            android:textColor="#D3D3D3"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/mobile_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="+91123456890"
             android:textColor="#FFFFFF"
-            android:textSize="16sp" />
+            android:textColorHint="@color/white"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:enabled="false"/>
 
-        <!-- Subscription -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:textColor="#D3D3D3"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp" />
 
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Your Email"
+            android:textColor="#FFFFFF"
+            android:textColorHint="@color/white"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:enabled="false"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Country"
+            android:textColor="#D3D3D3"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="India"
+            android:textColor="#FFFFFF"
+            android:textColorHint="@color/white"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:enabled="false"/>
     </LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_below="@id/input_fields_container"
+        android:layout_marginHorizontal="120dp"
+        android:layout_marginTop="30dp"
+        android:textSize="17sp"
+        android:text="Update Profile"/>
+<!--    <LinearLayout-->
+<!--        android:id="@+id/infoBlock"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="16dp"-->
+<!--        android:layout_below="@id/profileName"-->
+<!--        android:layout_marginTop="32dp"-->
+<!--        android:background="#1A1A1A"-->
+<!--        android:orientation="vertical"-->
+<!--        android:padding="16dp"-->
+<!--        android:elevation="4dp">-->
+
+<!--        &lt;!&ndash; Email &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/user_email"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Email: N/A"-->
+<!--            android:textColor="#FFFFFF"-->
+<!--            android:textSize="16sp" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:text="First Name:Not set"-->
+<!--            android:textColor="#FFFFFF"-->
+<!--            android:textSize="16sp" />-->
+
+<!--        &lt;!&ndash; Birthday &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:text="Last Name:Not set"-->
+<!--            android:textColor="#FFFFFF"-->
+<!--            android:textSize="16sp" />-->
+<!--        &lt;!&ndash; Country &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/user_country"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:text="Country: India (IN)"-->
+<!--            android:textColor="#FFFFFF"-->
+<!--            android:textSize="16sp" />-->
+<!--        &lt;!&ndash; Subscription &ndash;&gt;-->
+
+<!--    </LinearLayout>-->
 
     <!-- Music Player -->
 
-
-
-
+<!--    <Button-->
+<!--        android:id="@+id/edit_profile_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/infoBlock"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_marginStart="100dp"-->
+<!--        android:layout_marginTop="60dp"-->
+<!--        android:layout_marginEnd="100dp"-->
+<!--        android:text="Edit Profile"-->
+<!--        android:textSize="25sp" />-->
 </RelativeLayout>

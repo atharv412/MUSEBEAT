@@ -35,6 +35,7 @@
 
         <!-- Search Bar -->
         <EditText
+            android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="What do you want to listen to?"
@@ -174,7 +175,7 @@
             >
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+                android:id="@+id/search_song_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="8dp"

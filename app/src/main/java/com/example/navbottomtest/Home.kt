@@ -25,7 +25,7 @@ class Home:Fragment() {
     private val supaClient=SupabaseClientProvider.client
     private val cat=SupabaseClientProvider.client
 
-    
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

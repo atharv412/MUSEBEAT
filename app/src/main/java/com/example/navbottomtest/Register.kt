@@ -10,9 +10,13 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.navbottomtest.models.UserModel
 import com.google.android.material.textfield.TextInputEditText // Make sure this import is included
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
+import io.github.jan.supabase.auth.user.UserInfo
+import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.postgrest.query.Columns
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,6 +37,7 @@ class Register : AppCompatActivity() {
         val setEmail=findViewById<TextInputEditText>(R.id.email)
         val setPassword=findViewById<TextInputEditText>(R.id.password)
         val confirmPassword=findViewById<TextInputEditText>(R.id.confirmPassword).text.toString()
+        val user=findViewById<TextInputEditText>(R.id.user_name)
 
 //        val textview=findViewById<TextView>(R.id.loginNow)
 
@@ -44,10 +49,10 @@ class Register : AppCompatActivity() {
 
         registerButton.setOnClickListener {
             // Validate if passwords match
-//            if (setPassword.text.toString() != confirmPassword) {
-//                Toast.makeText(this, "Password and Confirm Password do not match", Toast.LENGTH_LONG).show()
-//                return@setOnClickListener
-//            }
+            if (setPassword.text.toString() == confirmPassword) {
+                Toast.makeText(this, "Password and Confirm Password do not match", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
             CoroutineScope(Dispatchers.IO).launch {
                 // Show the progress indicator on the main thread
                 withContext(Dispatchers.Main) {
@@ -55,22 +60,57 @@ class Register : AppCompatActivity() {
                 }
                 try {
                     // Sign up the user with email and password
-                    val user = client.auth.signUpWith(Email) {
+                    var user:UserInfo?=null
 
-                        email=setEmail.text.toString()
-                        password = setPassword.text.toString()
+                    val db_user=client.from("user").select(columns = Columns.list("user_email")) {
+                        filter{
+                            eq("user_email",setEmail.text.toString())
+                        }
+                    }
+                    println(db_user.data.length)
+                    println(db_user.data)
+
+                    // TODO: check the authException (Supabase is returning an empty list ([]))//completed
+//                    if ( db_user.data==null||db_user.data.isEmpty())
+                        if ( db_user.data.length==2)
+
+                    {
+
+                        println("No user found, proceeding with sign-up...")
+                        user = client.auth.signUpWith(Email) {
+                            email=setEmail.text.toString()
+                            password = setPassword.text.toString()
+                        }
+                        val create_user=UserModel(user_firstname = "", user_lastname = "", user_email =setEmail.text.toString(), user_history = mutableListOf() ,user_profile_photo="", user_country = "")
+                        client.from("user").insert(create_user)
+                        println("User registered successfully!")
+                    }else{
+                        // TODO: check the authException (Supabase is returning an empty list ([]))
+
+                        Log.d("atharva","User already exists")
+                        withContext(Dispatchers.Main){
+                            Toast.makeText(this@Register, "User with given Email already exists redirecting to login page", Toast.LENGTH_LONG).show()
+                        }
                     }
 
                     withContext(Dispatchers.Main) {
                         if (user == null) {
-                            // Navigate to login screen on success
+//                            // Navigate to login screen on success
                             waiting.visibility = View.GONE
-                            Toast.makeText(this@Register, "Sign-up Successfully", Toast.LENGTH_LONG).show()
+//                            Toast.makeText(this@Register, "redirecting to login page", Toast.LENGTH_LONG).show()
+//                            println("redirecting to login page")
                             val intent = Intent(this@Register, Login::class.java)
-
                             startActivity(intent)
                             finish()
-                        } else {
+                        }else if(user!=null){
+                            waiting.visibility = View.GONE
+                            Toast.makeText(this@Register, "Sign up Successfully", Toast.LENGTH_LONG).show()
+                            println("redirecting to login page")
+                            val intent = Intent(this@Register, Login::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                        else {
                             // Notify user of failure
                             waiting.visibility = View.GONE
                             Toast.makeText(this@Register, "Sign-up failed. Please try again.", Toast.LENGTH_LONG).show()
@@ -86,46 +126,7 @@ class Register : AppCompatActivity() {
                 }
             }
         }
-
-
-        // TODO: complete profile creation and db connectivity
-        // TODO: start music player creation
-
-
-//        registerButton.setOnClickListener {
-//            if(setPassword!=confirmPassword)
-//            {
-//                Toast.makeText(this,"Password and Confirm Password does not match",Toast.LENGTH_LONG).show()
-//            }
-//            CoroutineScope(Dispatchers.IO).launch{
-//
-////                waiting.visibility=View.VISIBLE
-//                val user = client.auth.signUpWith(Email) {
-//                    email=setEmail
-//                    password=setPassword
-//                }
-//                if(user!=null){
-//
-//                    withContext(Dispatchers.Main){
-//                        waiting.visibility=View.GONE
-//                        val intent=Intent(this@Register,Login::class.java)
-//                        startActivity(intent)
-//                        finish()
-//                    }
-//                }
-//                else{//gives a toast message to the user
-//                    withContext(Dispatchers.Main){
-//
-//                        Toast.makeText(this@Register,"Check password & confirmPassword",Toast.LENGTH_LONG).show()
-//                    }
-////                    waiting.visibility=View.GONE
-//                }
-//            }
-////            Toast.makeText(this@Register,"account created successfully",Toast.LENGTH_LONG).show()
-//        }
-
-
-
-
+        // TODO: complete profile creation and db connectivity//completed
+        // TODO: start music player creation//completed
     }
 }

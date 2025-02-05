@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -31,6 +32,7 @@ class Settings:AppCompatActivity() {
         val logout=findViewById<Button>(R.id.logout)
         val about=findViewById<Button>(R.id.aboutBtn)
         val back=findViewById<ImageButton>(R.id.backButton)
+        val userProfile=findViewById<LinearLayout>(R.id.user_profile_settings)
 
         CoroutineScope(Dispatchers.IO).launch {
             user = session.retrieveUserForCurrentSession(updateSession = true)
@@ -50,6 +52,10 @@ class Settings:AppCompatActivity() {
 
         back.setOnClickListener{
             finish()
+        }
+        userProfile.setOnClickListener{
+            val intent=Intent(this@Settings,Profile::class.java)
+            startActivity(intent)
         }
 
         logout.setOnClickListener {

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="30dp"
+    app:cardElevation="5dp"
+    android:background="@android:color/transparent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/black">
+
+        <!-- Song Thumbnail -->
+        <ImageView
+            android:id="@+id/songThumbnail"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/round_music_note_white_24"
+            android:layout_centerVertical="true" />
+
+        <!-- Song Title -->
+        <TextView
+            android:id="@+id/songTitle"
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:layout_toEndOf="@id/songThumbnail"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:text="Is Qadar"
+            android:textSize="17sp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"/>
+
+        <!-- Song Duration -->
+        <TextView
+            android:id="@+id/songDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/songThumbnail"
+            android:layout_below="@id/songTitle"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:text="4:25"
+            android:textSize="15sp"
+            android:textColor="#CCCCCC"/>
+
+        <!-- Play Button -->
+        <ImageView
+            android:id="@+id/playButton"
+            android:layout_width="80dp"
+            android:layout_height="250dp"
+            android:src="@drawable/round_play_arrow_white_24"
+            android:scaleType="center"
+
+            android:padding="1dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
