@@ -2,6 +2,7 @@ package com.example.navbottomtest
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -15,6 +16,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.widget.ImageButton
+import androidx.core.content.ContextCompat
 
 class SongPlayer:AppCompatActivity() {
 
@@ -47,18 +50,25 @@ class SongPlayer:AppCompatActivity() {
         val artistname=findViewById<TextView>(R.id.song_artist_text_view)
         val songImage=findViewById<ImageView>(R.id.song_image_view)
         val playerview=findViewById<PlayerView>(R.id.player_view)
+        val back=findViewById<ImageButton>(R.id.backButton)
 
         Exoplayer.getCurrentSong()?.apply {
 
             songname.text=song_name
             artistname.text=artist_name
-            Glide.with(songImage).load(cover_image)
-                .apply(
-                    RequestOptions().transform(RoundedCorners(32))
-                )
-                .into(songImage)
+
+            if (cover_image.isEmpty()){
+                songImage.setBackgroundColor(Color.WHITE)
+                songImage.setImageResource(R.drawable.round_music_note_24)
+            }else{
+                Glide.with(songImage).load(cover_image)
+                    .apply(
+                        RequestOptions().transform(RoundedCorners(32))
+                    )
+                    .into(songImage)
+            }
 //
-            exoPlayer=Exoplayer.getInstance()!!
+            exoPlayer= Exoplayer.getInstance(this@SongPlayer)!!
             exoPlayer.addListener(playerListener)
             playerview.player=exoPlayer
             playerview.showController()
@@ -67,6 +77,10 @@ class SongPlayer:AppCompatActivity() {
 //        val bgColor=MaterialColors.getColor(this,com.google.android.material.R.attr.colorSurface)
         val playerView: PlayerView = findViewById(R.id.player_view)
         playerView.setBackgroundColor(Color.TRANSPARENT)
+
+        back.setOnClickListener{
+            finish()
+        }
 
     }
 
@@ -99,9 +113,6 @@ class SongPlayer:AppCompatActivity() {
     }
 
     private  fun updatePlaybackState(isPlaying:Boolean){
-
-
-
         val state = if (isPlaying)
             PlaybackStateCompat.STATE_PLAYING
         else

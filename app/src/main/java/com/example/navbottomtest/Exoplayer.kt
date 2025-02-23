@@ -1,9 +1,11 @@
 package com.example.navbottomtest
 
 import android.content.Context
+import android.net.Uri
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.navbottomtest.models.SongModel
+import java.io.File
 
 object Exoplayer {
     private  var exoPlayer: ExoPlayer?=null
@@ -13,8 +15,11 @@ object Exoplayer {
         return currentSong
     }
 
-    fun getInstance():ExoPlayer?{
-        return exoPlayer
+    fun getInstance(context: Context):ExoPlayer?{
+        if (exoPlayer == null) {
+            exoPlayer = ExoPlayer.Builder(context).build()
+        }
+        return exoPlayer!!
     }
 
     fun startSong(context: Context,song:SongModel){
@@ -24,7 +29,13 @@ object Exoplayer {
             currentSong=song
 
             currentSong?.song_url?.apply {
-                val mediaItem=MediaItem.fromUri(this)
+
+                val mediaItem=if(song.song_url.startsWith("http")||song.song_url.startsWith("https")){
+                    MediaItem.fromUri(Uri.parse(song.song_url))
+                }
+                else{
+                    MediaItem.fromUri(Uri.fromFile(File(song.song_url)))
+                }
                 exoPlayer?.setMediaItem(mediaItem)
                 exoPlayer?.prepare()
                 exoPlayer?.play()

@@ -17,6 +17,14 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="75dp" />
 
+    <FrameLayout
+        android:id="@+id/miniPlayerContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        android:layout_gravity="bottom"
+        android:elevation="10dp"/>
+
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:layout_width="wrap_content"

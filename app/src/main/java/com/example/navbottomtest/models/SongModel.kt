@@ -7,7 +7,7 @@ import kotlinx.datetime.*
 data class SongModel(
     val id:Int,
     val song_name:String,
-    val song_url:String,
+    var song_url:String,
     val artist_name:String,
     val song_movie:String,
 //    @Serializable(with = DateTimeUnitSerializer::class)

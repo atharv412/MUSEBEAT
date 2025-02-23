@@ -2,7 +2,9 @@ package com.example.navbottomtest
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -25,20 +27,28 @@ class Profile: AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_proflie)
 
-        val userFirstname = findViewById<EditText>(R.id.first_name)
-        val userLastname = findViewById<EditText>(R.id.last_name)
-        val userEmail = findViewById<EditText>(R.id.email)
-        val userCountry = findViewById<EditText>(R.id.country)
+        val userName = findViewById<TextView>(R.id.name)
+//        val userLastname = findViewById<EditText>(R.id.last_name)
+        val userEmail = findViewById<TextView>(R.id.email)
+        val userCountry = findViewById<TextView>(R.id.country)
+        val back=findViewById<ImageButton>(R.id.backButton)
+        val editBtn=findViewById<Button>(R.id.edit_profile_btn)
+        var userId:Int?=0
+
 
         CoroutineScope(Dispatchers.IO).launch {
 
             user = session.auth.retrieveUserForCurrentSession(updateSession = true)
             val u_email = user.email
-            val db_user = session.from("user").select() {
+            val db_user = session.from("user").select{
                 filter {
                     eq("user_email", u_email.toString())
                 }
             }.decodeSingleOrNull<UserModel>()
+
+            val currentUser=session.from("user").select { filter { eq("user_email", u_email.toString()) } }
+            println("Current user from outer profile"+currentUser.data)
+
             withContext(Dispatchers.Main) {
                 println(db_user)
                 if (user.email.isNullOrEmpty())
@@ -48,12 +58,28 @@ class Profile: AppCompatActivity() {
                     finish()
                 }
                 else if(db_user != null) {
-                    userFirstname.setText(db_user.user_firstname)
-                    userLastname.setText(db_user.user_lastname)
-                    userEmail.setText(db_user.user_email)
-                    userCountry.setText(db_user.user_country)
+//                    userFirstname.setText(db_user.user_firstname)
+//                    userLastname.setText(db_user.user_lastname)
+                    userName.text=db_user.user_firstname+" "+db_user.user_lastname
+                    userEmail.text=db_user.user_email
+                    userCountry.text=db_user.user_country
+                    userId=db_user.id
                 }
             }
+        }
+
+        back.setOnClickListener{
+            finish()
+        }
+
+        editBtn.setOnClickListener {
+            val intent=Intent(this@Profile,EditProfile::class.java)
+            intent.putExtra("id",userEmail.text)
+            intent.putExtra("userName",userName.text)
+//            intent.putExtra("userMobileNo",userName.text)
+            intent.putExtra("userCountry",userCountry.text)
+            startActivity(intent)
+
         }
     }
 }

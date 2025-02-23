@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.navbottomtest"
-        minSdk = 29
+        minSdk = 33
         //noinspection EditedTargetSdkVersion
         targetSdk = 35
         versionCode = 1
@@ -51,8 +51,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-
 //    implementation()
     implementation(libs.material.v130alpha03)
 //    implementation (libs.supabase.supabase.kt) // Use the latest version

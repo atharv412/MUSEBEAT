@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
 
     <application
         android:allowBackup="true"
@@ -60,6 +61,9 @@
             android:theme="@style/Theme.Material3.DynamicColors.Dark.NoActionBar"/>
 
         <activity android:name=".Profile"
+            android:exported="true"
+            android:theme="@style/Theme.Material3.DynamicColors.Dark.NoActionBar"/>
+        <activity android:name=".EditProfile"
             android:exported="true"
             android:theme="@style/Theme.Material3.DynamicColors.Dark.NoActionBar"/>
 

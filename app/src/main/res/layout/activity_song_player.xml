@@ -5,12 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginTop="20dp"
     android:gravity="center_horizontal"
     android:id="@+id/player_main"
     android:background="@color/black"
     tools:context=".SongPlayer">
 
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/round_arrow_back_24"
+        android:background="@drawable/custom_layout_shape"
+        android:layout_gravity="left"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,27 +31,7 @@
         android:visibility="invisible"
         />
 
-    <TextView
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        tools:text="Song name"
-        android:textColor="@color/white"
-        android:paddingHorizontal="16dp"
-        android:textStyle="bold"
-        android:id="@+id/song_title_text_view"
-        android:layout_gravity="left"/>
-    <TextView
-        android:layout_width="200dp"
-        android:layout_height="30dp"
-        android:textSize="21sp"
-        tools:text="Album"
-        android:paddingHorizontal="16dp"
 
-        android:textColor="@color/white"
-        android:layout_marginTop="8dp"
-        android:id="@+id/song_artist_text_view"
-        android:layout_gravity="left"/>
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -63,6 +51,31 @@
             android:visibility="invisible"
             android:layout_gravity="center"/>
     </FrameLayout>
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        tools:text="Song name"
+        android:textColor="@color/white"
+        android:paddingHorizontal="16dp"
+        android:textStyle="bold"
+        android:id="@+id/song_title_text_view"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:maxLines="1"
+        />
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:textSize="21sp"
+        tools:text="Album"
+
+        android:textColor="@color/white"
+        android:layout_marginTop="8dp"
+        android:id="@+id/song_artist_text_view"
+        android:layout_gravity="center"
+        android:maxLines="1"
+        />
 
     <androidx.media3.ui.PlayerView
         android:layout_width="match_parent"

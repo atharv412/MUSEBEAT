@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.user.UserInfo
+import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,7 +22,7 @@ import kotlinx.coroutines.withContext
 class Settings:AppCompatActivity() {
 
     private  lateinit var user:UserInfo
-    private val session = SupabaseClientProvider.client.auth
+    private val session = SupabaseClientProvider.client
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +36,9 @@ class Settings:AppCompatActivity() {
         val userProfile=findViewById<LinearLayout>(R.id.user_profile_settings)
 
         CoroutineScope(Dispatchers.IO).launch {
-            user = session.retrieveUserForCurrentSession(updateSession = true)
+            user = session.auth.retrieveUserForCurrentSession(updateSession = true)
+            val currentUser=session.from("user").select { filter { eq("user_email", user.email.toString()) } }
+            println("Current user is  from settings"+currentUser.data)
 
             withContext(Dispatchers.Main) {
                 if (user.email.isNullOrEmpty())
@@ -53,14 +56,14 @@ class Settings:AppCompatActivity() {
         back.setOnClickListener{
             finish()
         }
-        userProfile.setOnClickListener{
-            val intent=Intent(this@Settings,Profile::class.java)
-            startActivity(intent)
-        }
+//        userProfile.setOnClickListener{
+//            val intent=Intent(this@Settings,Profile::class.java)
+//            startActivity(intent)
+//        }
 
         logout.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                session.signOut()
+                session.auth.signOut()
 
                 withContext(Dispatchers.Main){
                     Toast.makeText(this@Settings,"Logout successfull", Toast.LENGTH_SHORT).show()

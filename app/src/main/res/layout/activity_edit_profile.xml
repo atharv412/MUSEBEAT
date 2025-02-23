@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#2C2C2C"
+    android:padding="16dp"
+    tools:context=".EditProfile">
+
+    <!-- Back Button -->
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/round_arrow_back_24"
+        android:background="@drawable/custom_layout_shape"/>
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="Edit Profile"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+
+
+    <!-- Profile Image Container -->
+    <RelativeLayout
+        android:id="@+id/profile_image_container"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/title"
+        android:layout_marginTop="16dp">
+
+        <!-- Profile Image -->
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/round_account_white_circle_24"
+            android:scaleType="centerCrop"
+            android:contentDescription="Profile Image"
+            android:elevation="4dp" />
+
+        <!-- Camera Icon (Overlapping) -->
+        <ImageView
+            android:id="@+id/camera_icon"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="82dp"
+            android:contentDescription="Edit Profile Picture"
+            android:elevation="8dp"
+            android:src="@drawable/baseline_camera_alt_24" />
+    </RelativeLayout>
+
+    <!-- Input Fields -->
+    <LinearLayout
+        android:id="@+id/input_fields_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_image_container"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <!-- First Name -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="First Name"
+            android:textColor="#D3D3D3"
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/first_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Your First Name"
+            android:textColor="@color/pink"
+            android:textColorHint="@color/pink"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:textSize="16sp" />
+
+        <!-- Last Name -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Last Name"
+            android:textColor="#D3D3D3"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Mobile Number -->
+        <EditText
+            android:id="@+id/last_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_background"
+            android:hint="Your Last Name"
+            android:padding="12dp"
+            android:textColor="@color/pink"
+            android:textColorHint="@color/pink"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mobile No."
+            android:textColor="#D3D3D3"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/mobile_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="+91 0000000000"
+            android:textColor="#FFFFFF"
+            android:textColorHint="@color/pink"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Country"
+            android:textColor="#D3D3D3"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="India"
+            android:textColor="@color/pink"
+            android:textColorHint="@color/pink"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:textSize="16sp"/>
+
+
+    </LinearLayout>
+
+    <!-- Update Button -->
+    <Button
+        android:id="@+id/update_profile_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/input_fields_container"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/rounded_back_button"
+        android:text="Update Profile"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:padding="12dp"
+        android:textAllCaps="false" />
+</RelativeLayout>

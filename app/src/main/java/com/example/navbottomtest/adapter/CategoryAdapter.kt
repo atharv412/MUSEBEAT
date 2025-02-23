@@ -38,8 +38,6 @@ class CategoryAdapter(private val categoryList:List<CategoryModel>) :
                 SongsList.category=category
                 context.startActivity(Intent(context,SongsList::class.java))
             }
-
-
         }
     }
 
@@ -55,5 +53,4 @@ class CategoryAdapter(private val categoryList:List<CategoryModel>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bindData(categoryList[position])
     }
-
 }
