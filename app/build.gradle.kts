@@ -71,5 +71,6 @@ dependencies {
 
     implementation ("androidx.core:core:1.6.0")
     implementation ("androidx.media:media:1.4.3")
+    implementation(libs.androidx.swiperefreshlayout)
 
 }

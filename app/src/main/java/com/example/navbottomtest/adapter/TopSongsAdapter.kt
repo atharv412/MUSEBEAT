@@ -14,7 +14,16 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.navbottomtest.Exoplayer
 import com.example.navbottomtest.R
 import com.example.navbottomtest.SongPlayer
+import com.example.navbottomtest.SupabaseClientProvider
+import com.example.navbottomtest.models.SongHistoryModel
 import com.example.navbottomtest.models.SongModel
+import com.example.navbottomtest.models.UserModel
+import io.github.jan.supabase.auth.auth
+import io.github.jan.supabase.postgrest.from
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class TopSongsAdapter(private  val topSongs:List<SongModel>):
     RecyclerView.Adapter<TopSongsAdapter.MyViewHolder>()
@@ -24,6 +33,8 @@ class TopSongsAdapter(private  val topSongs:List<SongModel>):
 
         private val songName: TextView = itemView.findViewById(R.id.name_text_view)
         private  val songCoverImage: ImageView =itemView.findViewById(R.id.cover_image_view)
+        private val client= SupabaseClientProvider.client
+
 
         fun bindData(topSong: SongModel){
             songName.text=topSong.song_name
@@ -37,6 +48,57 @@ class TopSongsAdapter(private  val topSongs:List<SongModel>):
                 Log.d("SongClick ","Clicked on Song:${topSong.song_name}")
                 Exoplayer.startSong(it.context,topSong)
                 it.context.startActivity(Intent(it.context, SongPlayer::class.java))
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    val email=client.auth.currentSessionOrNull()?.user?.email.toString()
+                    appendToUserHistory(email,topSong.id)
+                }
+            }
+        }
+        private suspend fun appendToUserHistory(userEmail: String, newValue: Int) {
+            // Fetch the existing history
+            val response = client.from("user")
+                .select {
+                    filter {
+                        eq("user_email",userEmail )
+                    }
+                }
+                .decodeSingle<UserModel>()
+            println("user is "+response.user_email)
+
+            val userid=response.id!!
+            val song=newValue
+//            val columns = SongHistoryModel(user_id = userid, song_id = song)
+            val columns= mapOf(
+                "user_id" to userid,
+                "song_id" to song
+            )
+            println("updating user history with id${userid} with song id ${song}")
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val exisitingHistory=client.from("user_history").select{
+                    filter {
+                        eq("user_id",userid)
+                        eq("song_id",song)
+                    }
+                }
+
+                if (exisitingHistory.data.isNotEmpty()){
+                    try {
+                        val updatedHistory=client.from("user_history").insert(columns)
+                        if (updatedHistory.data.isEmpty()){
+                            println(updatedHistory.data+"song added to userHistory")
+                        }
+                    }catch (e: Exception){
+                        println(e.message)
+                    }
+
+                }
+                else if (exisitingHistory.data.isNotEmpty()){
+                    withContext(Dispatchers.Main){
+                        println("song already in history")
+                    }
+                }
             }
         }
 

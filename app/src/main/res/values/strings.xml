@@ -20,7 +20,9 @@
     <string name="TITLE">MUSEBEAT</string>
     <string name="language_and_region">Langauge\n</string>
     <string name="storage_emulated_0_download_musebeat">Download Path</string>
-    <string name="category">Categories</string>
+    <string name="category"> Popular Categories</string>
     <string name="English">English</string>
     <string name="description">Musebeat, a lightweight, free-for-all Spotify Alternative</string>
+    <string name="recently_played">Recently Played</string>
+    <string name="top_songs">Top Songs</string>
 </resources>

@@ -75,7 +75,6 @@ class Register : AppCompatActivity() {
                         if ( db_user.data.length==2)
 
                     {
-
                         println("No user found, proceeding with sign-up...")
                         user = client.auth.signUpWith(Email) {
                             email=setEmail.text.toString()

@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Nav Bottom Test"
+rootProject.name = "MUSEBEAT"
 include(":app")
  

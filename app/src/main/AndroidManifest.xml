@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_2_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Material3.DynamicColors.Dark.NoActionBar"
-        tools:targetApi="35">
+        tools:targetApi="35"
+        android:enableOnBackInvokedCallback="true">
         <activity
             android:name=".Welcome"
             android:exported="true"
