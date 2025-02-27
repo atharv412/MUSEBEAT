@@ -6,7 +6,6 @@ data class UserModel (
     val id:Int?=null,
     val user_firstname:String,
     val user_email:String,
-    val user_history:List<Int>,
     val user_lastname:String,
     val user_profile_photo:String,
     val user_country:String

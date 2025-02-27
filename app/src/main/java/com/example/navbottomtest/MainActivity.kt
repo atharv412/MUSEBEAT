@@ -39,11 +39,14 @@ class MainActivity : AppCompatActivity() {
 //                    Toast.makeText(this, "Search Selected", Toast.LENGTH_SHORT).show()
                     true
                 }
-//                R.id.navPlaylists -> {
-//                    // Handle Profile action
+                R.id.navPlaylists -> {
+                    // Handle Profile action
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container,Playlist())
+                        .commit()
 //                    Toast.makeText(this, "Profile Selected", Toast.LENGTH_SHORT).show()
-//                    true
-//                }
+                    true
+                }
                 else -> false
             }
         }

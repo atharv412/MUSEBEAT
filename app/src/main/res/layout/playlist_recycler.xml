@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp">
+
+    <RelativeLayout
+        android:layout_width="172dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <!-- Playlist Cover -->
+        <ImageView
+            android:id="@+id/imgPlaylistCover"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/welcome_icon_removebg" />
+
+        <!-- Playlist Name -->
+
+        <!-- Playlist Description -->
+
+        <TextView
+            android:id="@+id/txtPlaylistName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Playlist Name"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtPlaylistDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Playlist description"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

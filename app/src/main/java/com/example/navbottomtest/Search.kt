@@ -12,10 +12,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.navbottomtest.adapter.SearchAdapter
+import com.example.navbottomtest.models.CategoryModel
 import com.example.navbottomtest.models.SongModel
 import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.postgrest.query.Columns
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -23,6 +27,7 @@ class Search:Fragment() {
 
     private  lateinit var searchSongAdapter:SearchAdapter
     private val supaClient=SupabaseClientProvider.client
+    private  var searchJob:Job?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,12 +46,22 @@ class Search:Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 println(s)
-
                 getSearchSongs(rootview,s.toString())
-            }
-            override fun afterTextChanged(p0: Editable?) {
-                println("afterTextChanged implementation"+p0)
 
+            }
+            override fun afterTextChanged(s: Editable?) {
+                println("afterTextChanged implementation"+s)
+
+                searchJob?.cancel()
+                searchJob=CoroutineScope(Dispatchers.Main).launch {
+                    delay(2500)
+                    if (s.toString().startsWith("songs:")) {
+                        val category = s.toString().split(":")[1].trim().orEmpty()
+                        println(category)
+                        getSearchCategorySongs(rootview, category)
+                    }
+                    //replicate this for
+                }
             }
         })
 
@@ -57,16 +72,42 @@ class Search:Fragment() {
     {
         CoroutineScope(Dispatchers.IO).launch {
             val responses = supaClient.from("songs")
-                .select () {
-                    filter { ilike("song_name", "%$query%") }
+                .select {
+                    filter {
+                        or {
+                        ilike("song_name", "%$query%")
+                        ilike("artist_name","%$query%")
+                        ilike("song_movie","%$query%")
+                        }
+                    }
                 }
                 .decodeList<SongModel>()//TODO: create a model for the song or use the song model
-println(responses)
+                println(responses)
             withContext(Dispatchers.Main){
                 //TODO: call the setupSearchAdapterRecyclerView() to setup adapter to the view
                 setupSearchAdapterRecyclerView(responses,rootView)
                 //TODO :send the response as a parameter
             }
+        }
+    }
+    private fun getSearchCategorySongs(rootView: View,query: String){
+        CoroutineScope(Dispatchers.IO).launch {
+            val categoryName=supaClient.from("category").select{
+                filter { ilike("name" , "%$query%") }
+            }.decodeSingleOrNull<CategoryModel>()
+
+            if (categoryName!=null){
+                val responses=supaClient.from("songs").select {
+                    filter { eq("song_category" , categoryName.id) }
+                }.decodeList<SongModel>()
+                println(responses)
+                withContext(Dispatchers.Main){
+                    setupSearchAdapterRecyclerView(responses,rootView)
+                }
+            }else{
+                println("category does not match any value")
+            }
+
         }
     }
     private fun setupSearchAdapterRecyclerView(searchedSongs:List<SongModel>,rootView: View){

@@ -51,17 +51,23 @@
             android:visibility="invisible"
             android:layout_gravity="center"/>
     </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
     <TextView
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:textSize="25sp"
         tools:text="Song name"
         android:textColor="@color/white"
-        android:paddingHorizontal="16dp"
         android:textStyle="bold"
         android:id="@+id/song_title_text_view"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
+        android:gravity="center"
         android:maxLines="1"
         />
     <TextView
@@ -69,13 +75,31 @@
         android:layout_height="30dp"
         android:textSize="21sp"
         tools:text="Album"
-
+        android:gravity="center"
         android:textColor="@color/white"
         android:layout_marginTop="8dp"
         android:id="@+id/song_artist_text_view"
         android:layout_gravity="center"
         android:maxLines="1"
         />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/download_button"
+            android:layout_width="40sp"
+            android:layout_height="40sp"
+            android:contentDescription="@string/download_song"
+            android:src="@drawable/round_file_download_24" />
+    </LinearLayout>
 
     <androidx.media3.ui.PlayerView
         android:layout_width="match_parent"

@@ -2,10 +2,8 @@ package com.example.navbottomtest
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +27,6 @@ import com.example.navbottomtest.models.UserModel
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.query.Columns
-import io.github.jan.supabase.postgrest.query.Order
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -64,7 +61,7 @@ class Home:Fragment() {
         val rootview = inflater.inflate(R.layout.home_fragment, container, false)
 //
         val settingsbtn = rootview.findViewById<ImageView>(R.id.settings_icon)
-        val swipeRefreshLayout=rootview.findViewById<SwipeRefreshLayout>(R.id.mainSwipeRefreshLayout)
+        swipeRefreshLayout=rootview.findViewById<SwipeRefreshLayout>(R.id.mainSwipeRefreshLayout)
 
 
         settingsbtn.setOnClickListener {
@@ -207,22 +204,22 @@ class Home:Fragment() {
                     filter {
                         eq("user_email", currentUser)
                     }
+
                 }
                 .decodeSingle<UserModel>()
 
-            val userHistory = supaClient
-                .from("user_history")
-                .select(columns = Columns
+            val userHistory = supaClient.from("user_history").select(columns = Columns
                     .raw("id,user_id,song_id,songs(id,song_name,song_url,artist_name,song_movie,song_releasing_date,song_category,cover_image)".trimIndent())
             ) {
                 filter {
                     eq("user_id", response.id.toString())
+
                 }
             }.decodeList<SongHistoryModel>()
             //[SongHistoryModel(id=2, user_id=5, song_id=1), SongHistoryModel(id=3, user_id=5, song_id=6), SongHistoryModel(id=4, user_id=5, song_id=13)]
 
-                println(userHistory)
-            val songIds = userHistory.map { it.song_id }.reversed()
+            println(userHistory)
+            val songIds = userHistory.map { it.song_id }.reversed().take(10)
                 println("songsbased on song_id of user_history"+songIds)
 
             if (songIds.isNotEmpty()) {
@@ -235,6 +232,7 @@ class Home:Fragment() {
                 }
                 println("songs fetched  from user_history"+songs)
                 withContext(Dispatchers.Main){
+
                     setupUserHistory(songs,rootView)
                 }
             }
@@ -250,46 +248,3 @@ class Home:Fragment() {
 
     }
 }
-//    fun getAudioFiles(context: Context,rootView: View) {
-//        val songList = mutableListOf<OfflineSongsModel>()
-//        val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-//        val projection = arrayOf(
-//            MediaStore.Audio.Media.DATA, // File path
-//            MediaStore.Audio.Media.TITLE,
-//            MediaStore.Audio.Media.ARTIST
-//        )
-//
-//        val selection = "${MediaStore.Audio.Media.MIME_TYPE} = ?"
-//        val selectionArgs = arrayOf("audio/mp3")
-//        val cursor = context.contentResolver.query(uri, projection, selection, selectionArgs, null)
-//
-//        cursor?.use {
-//            val dataColumn = it.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
-//            val titleColumn = it.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
-//            val artistColumn = it.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
-//
-//            while (it.moveToNext()) {
-//                val path = it.getString(dataColumn)
-//                val title = it.getString(titleColumn)
-//                val artist = it.getString(artistColumn)
-//                songList.add((OfflineSongsModel(title, path)))
-//
-////                songList.add(OfflineSongsModel(title,path))
-////                songList.add(OfflineSongsModel(title, path)) // Add to list
-//
-//            }
-//        }
-//        println("OFFLINE SONGS IN GALAXY M32"+songList)
-//
-//
-//        val recyclerView=rootView.findViewById<RecyclerView>(R.id.offline_songs_recycler)
-//        offlineSongsAdapter=OfflineSongsAdapter(songList)
-//        recyclerView.layoutManager=LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
-//        recyclerView.adapter=offlineSongsAdapter
-////        Log.d("atharva", "Adapter is set: ${recyclerView.adapter!=null}")
-//        println("Adapter is set: ${recyclerView.adapter!=null}")
-////        return songList
-//    }
-
-
-

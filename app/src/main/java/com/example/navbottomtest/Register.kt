@@ -80,7 +80,7 @@ class Register : AppCompatActivity() {
                             email=setEmail.text.toString()
                             password = setPassword.text.toString()
                         }
-                        val create_user=UserModel(user_firstname = "", user_lastname = "", user_email =setEmail.text.toString(), user_history = mutableListOf() ,user_profile_photo="", user_country = "")
+                        val create_user=UserModel(user_firstname = "", user_lastname = "", user_email =setEmail.text.toString() ,user_profile_photo="", user_country = "")
                         client.from("user").insert(create_user)
                         println("User registered successfully!")
                     }else{

@@ -103,7 +103,7 @@ class SongListAdapter(private  val songList:List<SongModel>):
                         }
 
                     }
-                    else if (exisitingHistory.data.isNotEmpty()){
+                    else if (exisitingHistory.data.isEmpty()){
                         withContext(Dispatchers.Main){
                             println("song already in history")
                         }

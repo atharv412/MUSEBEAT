@@ -78,17 +78,21 @@ class TopSongsAdapter(private  val topSongs:List<SongModel>):
             CoroutineScope(Dispatchers.IO).launch {
                 val exisitingHistory=client.from("user_history").select{
                     filter {
-                        eq("user_id",userid)
-                        eq("song_id",song)
+                        and {
+                            eq("user_id", userid)
+                            eq("song_id", song)
+                        }
                     }
                 }
-
+                    println("song is ${ exisitingHistory }")
                 if (exisitingHistory.data.isNotEmpty()){
                     try {
                         val updatedHistory=client.from("user_history").insert(columns)
-                        if (updatedHistory.data.isEmpty()){
-                            println(updatedHistory.data+"song added to userHistory")
+                        if (!updatedHistory.data.isEmpty()){
+                            println("song is $exisitingHistory")
+                            println("${updatedHistory}song added to userHistory")
                         }
+
                     }catch (e: Exception){
                         println(e.message)
                     }
