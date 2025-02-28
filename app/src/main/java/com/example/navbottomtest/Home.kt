@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.Manifest
+import android.annotation.SuppressLint
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.navbottomtest.adapter.CategoryAdapter
 import com.example.navbottomtest.adapter.OfflineSongsAdapter
@@ -79,7 +80,7 @@ class Home:Fragment() {
 
             swipeRefreshLayout.isRefreshing=false
         }
-//        todo implement refresh frag on overscroll feature for this fragment
+//        todo implement refresh frag on overscroll feature for this fragment//COMPLETED
         requestAudioPermissions()
         getCategories(rootview)
         getTopSongs(rootview)
@@ -107,15 +108,13 @@ class Home:Fragment() {
 
     private fun setupCategoryRecyclerView(categoryList: List<CategoryModel>, rootView: View) {
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.categories_recycler_view)
-        categoryAdapter =
-            CategoryAdapter(categoryList) //gets the list of rows from the getCategories()
+        categoryAdapter = CategoryAdapter(categoryList) //gets the list of rows from the getCategories()
         recyclerView.layoutManager = LinearLayoutManager(
             context,
             LinearLayoutManager.HORIZONTAL,
             false
         )//changes the layout to horizontal
 //        Log.d("atharva", "Adapter is set: ${recyclerView.adapter!=null}")
-
         recyclerView.adapter = categoryAdapter
 //        Log.d("atharva", "Adapter is set: ${recyclerView.adapter!=null}")
     }
@@ -130,6 +129,7 @@ class Home:Fragment() {
                 }
                 .decodeList<SongModel>()
             println(topsongs)
+
             withContext(Dispatchers.Main) {
 
                 val randomSongs = topsongs.shuffled().take(10)
@@ -195,6 +195,7 @@ class Home:Fragment() {
         requestPermissionLauncher.launch(permission)
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun getUserHistory(rootView: View) {
         CoroutineScope(Dispatchers.IO).launch {
             val currentUser = supaClient.auth.currentSessionOrNull()?.user?.email.toString()
@@ -220,7 +221,7 @@ class Home:Fragment() {
 
             println(userHistory)
             val songIds = userHistory.map { it.song_id }.reversed().take(10)
-                println("songsbased on song_id of user_history"+songIds)
+                println("songsbased on song_id of user_history$songIds")
 
             if (songIds.isNotEmpty()) {
                 val songs = songIds.map { songId ->

@@ -79,7 +79,6 @@ class Profile: AppCompatActivity() {
 //            intent.putExtra("userMobileNo",userName.text)
             intent.putExtra("userCountry",userCountry.text)
             startActivity(intent)
-
         }
     }
 }

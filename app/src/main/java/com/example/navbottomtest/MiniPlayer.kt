@@ -106,7 +106,9 @@ class MiniPlayer : Fragment() {
 //            } else {
 //                playPauseButton.setImageResource(R.drawable.round_play_arrow_white_24)
 //            }
+
         }
+
     }
 
     private fun setupPlayerListener() {

@@ -21,7 +21,7 @@
         android:id="@+id/miniPlayerContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="75dp"
         android:layout_gravity="bottom"
         android:elevation="10dp"/>
 
@@ -30,15 +30,14 @@
         android:layout_width="wrap_content"
         android:layout_height="75dp"
         android:id="@+id/bottomAppBar"
-        android:layout_gravity="bottom"
-        app:fabAlignmentMode="center">
+        android:layout_gravity="bottom">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            app:menu="@menu/bottom_nav_menu" />
+            app:menu="@menu/bottom_nav_menu"
+            />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 

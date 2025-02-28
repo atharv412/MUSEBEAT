@@ -58,6 +58,9 @@
         <activity android:name=".SongsList"
             android:exported="true"
             android:theme="@style/Theme.Material3.DynamicColors.Dark.NoActionBar"/>
+        <activity android:name=".PlaylistDetails"
+            android:exported="true"
+            android:theme="@style/Theme.Material3.DynamicColors.Dark.NoActionBar"/>
 
         <activity android:name=".SongPlayer"
             android:exported="true"

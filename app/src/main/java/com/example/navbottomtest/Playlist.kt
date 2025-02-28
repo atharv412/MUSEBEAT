@@ -1,5 +1,6 @@
 package com.example.navbottomtest
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +9,28 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.media3.common.util.Log
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.navbottomtest.adapter.CreatePlayListAdapter
+import com.example.navbottomtest.adapter.PlaylistAdapter
+import com.example.navbottomtest.models.PlaylistModel
+import com.example.navbottomtest.models.SongModel
+import com.example.navbottomtest.models.UserModel
+import io.github.jan.supabase.auth.auth
+import io.github.jan.supabase.postgrest.from
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Playlist:Fragment() {
+
+    private val supaClient = SupabaseClientProvider.client
+    private lateinit var songSelectionAdapter: CreatePlayListAdapter
+    private lateinit var playlistAdapter:PlaylistAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -20,19 +40,16 @@ class Playlist:Fragment() {
 
         val playlistcreator=rootview.findViewById<Button>(R.id.btnGenerate)
 
-
+        getPlaylists(rootview)
 
 
         playlistcreator.setOnClickListener {
-            showCreatePlaylistDialog()
+            showCreatePlaylistDialog(rootview)
         }
 
         return rootview
     }
-
-
-
-    private fun showCreatePlaylistDialog() {
+    private fun showCreatePlaylistDialog(rootView: View) {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.playlist_creator, null)
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
@@ -40,32 +57,145 @@ class Playlist:Fragment() {
             .create()
 
         val editTextPlaylistName = dialogView.findViewById<EditText>(R.id.editPlaylistName)
-        val recyclerViewSongs = dialogView.findViewById<RecyclerView>(R.id.recyclerViewSongs)
         val btnCreate = dialogView.findViewById<Button>(R.id.btnCreatePlaylist)
         val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
 
         // Load Songs into RecyclerView (Optional: Let user select songs)
-//        recyclerViewSongs.layoutManager = LinearLayoutManager(this)
-//        val songAdapter = SongSelectionAdapter(getAllSongs()) // Implement song selection adapter
-//        recyclerViewSongs.adapter = songAdapter
+
+        getSongsForPlaylists(dialogView)
 
         // Handle Create Button Click
-//        btnCreate.setOnClickListener {
-//            val playlistName = editTextPlaylistName.text.toString().trim()
-//            val selectedSongs = songAdapter.getSelectedSongs() // Get selected songs
-//
-//            if (playlistName.isNotEmpty()) {
-//                createPlaylist(playlistName, selectedSongs)
-//                dialog.dismiss()
-//            } else {
-//                Toast.makeText(this, "Enter a valid playlist name", Toast.LENGTH_SHORT).show()
-//            }
-//        }
+        btnCreate.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val playlistName = editTextPlaylistName.text.toString().trim()
+
+                val selectedSongs=songSelectionAdapter.getSelectedSongs()
+                println("selected songs are as follows ${selectedSongs.map { it.song_name }}")
+
+                if (playlistName.isNotEmpty()) {
+                    createPlaylist(playlistName, selectedSongs)
+                    dialog.dismiss()
+                } else {
+//                    Toast.makeText(context, "Enter a valid playlist name", Toast.LENGTH_SHORT).show()
+                    println("Enter a valid playlist name")
+                }
+            }
+        }
 
         // Handle Cancel Button Click
         btnCancel.setOnClickListener { dialog.dismiss() }
 
         dialog.show()
+    }
+
+
+
+
+
+    private  fun getPlaylists(rootView: View){
+        CoroutineScope(Dispatchers.IO).launch {
+            val currentUser = supaClient.auth.currentSessionOrNull()?.user?.email.toString()
+
+            val response = supaClient.from("user")
+                .select {
+                    filter {
+                        eq("user_email", currentUser)
+                    }
+
+                }
+                .decodeSingle<UserModel>()
+
+            val playlists = supaClient.from("user_playlist")
+                .select {
+                    filter {
+                        eq("user_id", response.id.toString())
+
+                    }
+
+                }
+                .decodeList<PlaylistModel>()
+
+            //METHOD 1
+            val groupedPlaylists = playlists
+                .groupBy { it.playlist_name }
+                .mapValues { it.value.map { song -> song.song_id } }
+
+            //METHOD 2
+//            val groupedPlaylists=playlists
+//                .groupBy { it.playlist_name }
+//            val simplifiedPlaylists = groupedPlaylists
+//                .mapValues { (_, songs) ->
+//                    songs.map { it.song_id }
+//                }
+                println("the grouped  list is $groupedPlaylists")
+            withContext(Dispatchers.Main){
+                setupPlaylistRecyclerView(rootView,groupedPlaylists)
+            }
+
+        }
+    }
+
+    private fun setupPlaylistRecyclerView(rootView: View,playlistNameList:Map<String,List<Int>>){
+        val recyclerView=rootView.findViewById<RecyclerView>(R.id.recyclerViewPlaylists)
+        playlistAdapter=PlaylistAdapter(playlistNameList)
+        recyclerView.layoutManager=GridLayoutManager(context,3)
+        recyclerView.adapter=playlistAdapter
+
+    }
+
+    private  fun getSongsForPlaylists(rootView: View){
+        CoroutineScope(Dispatchers.IO).launch {
+            val songs=supaClient.from("songs")
+                .select {
+                    limit(50)
+                }
+                .decodeList<SongModel>()
+//            println("Songs for playlist are as follows $songs")
+            withContext(Dispatchers.Main){
+                setupSongSelector(songs.shuffled().take(10),rootView)
+            }
+        }
+    }
+
+    private fun setupSongSelector(songsList: List<SongModel>, rootView: View){
+        val recyclerViewSongs = rootView.findViewById<RecyclerView>(R.id.recyclerViewSongs)
+        songSelectionAdapter=CreatePlayListAdapter(songsList)
+        recyclerViewSongs.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+        recyclerViewSongs.adapter=songSelectionAdapter
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    private fun createPlaylist(playlistName:String, selectedSongs:List<SongModel>){
+        val selectedSongsId=selectedSongs.map { it.id }
+        CoroutineScope(Dispatchers.IO).launch {
+            val currentUser = supaClient.auth.currentSessionOrNull()?.user?.email.toString()
+
+            val response = supaClient.from("user")
+                .select {
+                    filter {
+                        eq("user_email", currentUser)
+                    }
+                }
+                .decodeSingle<UserModel>()
+            val id=response.id
+            val columns= selectedSongsId.map {songId->
+                PlaylistModel(
+                    playlist_name = playlistName,
+                    song_id = songId,
+                    user_id = id)
+            }
+            println(columns)
+            Log.d("atharva","values to be inserted are as follows $columns")
+
+            val createdPLaylist=supaClient
+                .from("user_playlist")
+                .insert(columns)
+
+            if (createdPLaylist.data.isNotEmpty()){
+                Log.d("atharva","playlist created ")
+            }
+        }
     }
 
 }

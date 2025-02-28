@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/imgPlaylistCover"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:src="@drawable/welcome_icon_removebg" />
 
@@ -28,19 +28,18 @@
             android:id="@+id/txtPlaylistName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:text="Playlist Name"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/txtPlaylistDesc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Playlist description"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="14sp" />
+        <!--        <TextView-->
+<!--            android:id="@+id/txtPlaylistDesc"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Playlist description"-->
+<!--            android:textColor="@android:color/darker_gray"-->
+<!--            android:textSize="14sp" />-->
 
     </RelativeLayout>
 
