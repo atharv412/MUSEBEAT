@@ -10,6 +10,19 @@
     tools:context=".PlaylistDetails">
 
     <!-- Header Section -->
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/custom_layout_shape"
+        android:src="@drawable/round_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
     <ImageView
         android:id="@+id/playlist_image"
         android:layout_width="200dp"
@@ -41,7 +54,7 @@
         android:id="@+id/spotify_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Spotify"
+        android:text="MuseBeat"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@id/playlist_title"

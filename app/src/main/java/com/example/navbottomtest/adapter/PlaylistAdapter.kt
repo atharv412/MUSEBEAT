@@ -21,8 +21,14 @@ class PlaylistAdapter(private  val playlistList:Map<String,List<Int>>):
         fun  bindData(playlist:String){
             playListName.text=playlist
             playlistView.setOnClickListener {
-                playlistdetails= playlistList
+                println("Clicked on playlist with name ${playListName.text} and  its values are $playlistList ")
+//                println(playlistList[playListName.text])
+                val songs= mapOf(playListName.text.toString() to (playlistList[playListName.text.toString()]?: emptyList()))
+
+                playlistdetails= songs
                 //TODO either send playlist name or the entire playlistList with ids maybe filter them
+//                val songs=playlistList[playListName.text] ?: emptyList()
+                println("song ids of given id is $songs")
                 val context=playlistView.context
                 context.startActivity(Intent(context,PlaylistDetails::class.java))
             }

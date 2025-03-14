@@ -2,7 +2,6 @@ package com.example.navbottomtest
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -17,7 +16,6 @@ import com.example.navbottomtest.adapter.SongListAdapter
 import com.example.navbottomtest.models.CategoryModel
 import com.example.navbottomtest.models.SongModel
 import io.github.jan.supabase.postgrest.from
-import io.github.jan.supabase.postgrest.query.Columns
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -22,7 +22,10 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.annotation.OptIn
 import androidx.core.content.ContextCompat
+import androidx.media3.common.util.UnstableApi
+import com.example.navbottomtest.models.SongModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -100,11 +103,12 @@ class SongPlayer:AppCompatActivity() {
         download.setOnClickListener {
             val currentsong=Exoplayer.getCurrentSong()!!
 
-                downloadFileFromSupabase(this@SongPlayer,currentsong.song_url,currentsong.song_name)
+            downloadFileFromSupabase(this@SongPlayer,currentsong.song_url,currentsong.song_name)
 
         }
 
     }
+
     fun saveFileToDownloads(context: Context, fileName: String, inputStream: InputStream) {
 
             val resolver = context.contentResolver

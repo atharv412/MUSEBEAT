@@ -69,7 +69,10 @@
                         android:id="@+id/user_history_recycler"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/google_sans_regular"/>
+                        android:fontFamily="@font/google_sans_regular"
+                        android:padding="8dp"
+                        android:background="@drawable/background1" />
+
                 </LinearLayout>
                 <!--  implement user history and its recycler -->
 

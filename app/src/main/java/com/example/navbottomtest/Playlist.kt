@@ -49,6 +49,8 @@ class Playlist:Fragment() {
 
         return rootview
     }
+
+
     private fun showCreatePlaylistDialog(rootView: View) {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.playlist_creator, null)
         val dialog = AlertDialog.Builder(requireContext())
@@ -88,8 +90,6 @@ class Playlist:Fragment() {
 
         dialog.show()
     }
-
-
 
 
 

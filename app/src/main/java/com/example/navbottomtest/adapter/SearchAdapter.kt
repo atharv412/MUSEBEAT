@@ -25,7 +25,7 @@ class SearchAdapter (private  val songList: List<SongModel>):
             private  val songImage:ImageView=searchView.findViewById(R.id.songThumbnail)
             private  val songTitle:TextView=searchView.findViewById(R.id.songTitle)
             private  val songPlay:ImageView=searchView.findViewById(R.id.playButton)
-
+            private  val songArtist:TextView=searchView.findViewById(R.id.songDuration)
             fun bindData(searchSong: SongModel){
                 songTitle.text=searchSong.song_name
                 Glide.with(songImage).load(searchSong.cover_image)
@@ -33,6 +33,7 @@ class SearchAdapter (private  val songList: List<SongModel>):
                         RequestOptions().transform(RoundedCorners(32))
                     )
                     .into(songImage)
+                songArtist.text=searchSong.artist_name
 
                 songPlay.setOnClickListener{
                     Log.d("SongClick", "Clicked on song: ${searchSong.song_name}")
@@ -51,7 +52,7 @@ class SearchAdapter (private  val songList: List<SongModel>):
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int ): MyViewHolder {
-            val searchView=LayoutInflater.from(parent.context).inflate(R.layout.search_song_recycler_row,parent,false)
+            val searchView=LayoutInflater.from(parent.context).inflate(R.layout.search_song_recycler_row_2,parent,false)
             return MyViewHolder(searchView)
         }
 

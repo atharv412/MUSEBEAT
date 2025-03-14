@@ -1,0 +1,62 @@
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="8dp"
+
+    android:layout_margin="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical" >
+
+        <!-- Rounded Image -->
+        <ImageView
+            android:id="@+id/songThumbnail"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/round_music_note_white_24"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"/>
+
+        <!-- Song Info -->
+        <LinearLayout
+            android:layout_width="236dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingStart="10dp">
+
+            <!-- Song Title -->
+            <TextView
+                android:id="@+id/songTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lonely Eyes"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- Artist & Duration -->
+            <TextView
+                android:id="@+id/songDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lauv - 3:36"
+                android:textColor="#B0B0B0"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Floating Play Button -->
+        <ImageView
+            android:id="@+id/playButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/round_play_arrow_white_24"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
