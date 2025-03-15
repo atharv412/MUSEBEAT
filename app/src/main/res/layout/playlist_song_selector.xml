@@ -1,36 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="8dp">
+    android:padding="10dp">
 
-    <!-- Song Thumbnail -->
+    <!-- Album Image -->
     <ImageView
         android:id="@+id/imgSongThumbnail"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/welcome2_removebg"
-        android:contentDescription="Song Thumbnail"
-        android:scaleType="centerCrop"/>
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/welcome_icon_removebg"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <!-- Song Title -->
     <TextView
-        android:id="@+id/txtSongTitle"
-        android:layout_width="0dp"
+        android:id="@+id/songTitle"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Song Title"
+        android:text="MONTERO (Call Me By Your Name)"
+        android:textColor="#FFFFFF"
         android:textSize="16sp"
-        android:paddingStart="8dp"
-        android:gravity="center_vertical"/>
+        android:maxLines="1"
 
-    <!-- Checkbox for Selection -->
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/imgSongThumbnail"
+        app:layout_constraintTop_toTopOf="@id/imgSongThumbnail"
+        android:paddingStart="10dp"/>
+
+    <!-- Explicit Content Icon -->
+    <TextView
+        android:id="@+id/artistName"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="Arjit siongh"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        android:padding="1dp"
+        android:maxLines="1"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toStartOf="@id/songTitle"
+        app:layout_constraintTop_toBottomOf="@id/songTitle"
+        app:layout_constraintBottom_toBottomOf="@id/imgSongThumbnail"/>
+
+    <!-- Artist Name & Duration -->
+
+
+    <!-- Three-dot Menu -->
     <CheckBox
         android:id="@+id/checkboxSelectSong"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingEnd="8dp"/>
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+

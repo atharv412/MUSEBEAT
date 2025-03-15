@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#333333"/> <!-- Dark Gray Circle -->
+    <corners android:radius="50dp"/> <!-- Fully Rounded -->
+    <size android:width="55dp" android:height="55dp"/> <!-- Adjust Size -->
+    <elevation android:translationZ="8dp"/> <!-- Shadow Effect -->
+</shape>

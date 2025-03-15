@@ -23,13 +23,14 @@ class CreatePlayListAdapter(
     inner class MyViewHolder(private val songSelectionView:View)
         :RecyclerView.ViewHolder(songSelectionView)
     {
-        private val songTitle=songSelectionView.findViewById<TextView>(R.id.txtSongTitle)
+        private val songTitle=songSelectionView.findViewById<TextView>(R.id.songTitle)
+        private val songArtist=songSelectionView.findViewById<TextView>(R.id.artistName)
         private val songImage=songSelectionView.findViewById<ImageView>(R.id.imgSongThumbnail)
         private val songCheckBox=songSelectionView.findViewById<CheckBox>(R.id.checkboxSelectSong)
 
         fun bindData(song:SongModel){
             songTitle.text=song.song_name
-
+            songArtist.text=song.artist_name
             Glide.with(songImage).load(song.cover_image)
                 .apply(
                     RequestOptions().circleCrop()
