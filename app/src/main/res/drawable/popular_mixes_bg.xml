@@ -1,0 +1,17 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Card Corners for Smooth Shape -->
+    <corners android:radius="20dp"/>
+
+    <!-- Gradient Background Color -->
+    <gradient
+        android:startColor="#FF5733"
+        android:endColor="#FFC300"
+        android:angle="90"/>
+
+    <!-- Box Shadow Effect -->
+    <solid android:color="#FF5733"/>
+
+    <padding android:left="8dp" android:right="8dp" />
+</shape>

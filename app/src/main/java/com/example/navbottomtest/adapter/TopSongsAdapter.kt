@@ -31,8 +31,8 @@ class TopSongsAdapter(private  val topSongs:List<SongModel>):
     class  MyViewHolder(private  val topSongsView:View):
         RecyclerView.ViewHolder(topSongsView) {
 
-        private val songName: TextView = itemView.findViewById(R.id.name_text_view)
-        private  val songCoverImage: ImageView =itemView.findViewById(R.id.cover_image_view)
+        private val songName: TextView = itemView.findViewById(R.id.music_title)
+        private  val songCoverImage: ImageView =itemView.findViewById(R.id.music_image_1)
         private val client= SupabaseClientProvider.client
 
 
@@ -109,7 +109,7 @@ class TopSongsAdapter(private  val topSongs:List<SongModel>):
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val topsongsview=LayoutInflater.from(parent.context).inflate(R.layout.category_recycler_row_item,parent,false)
+        val topsongsview=LayoutInflater.from(parent.context).inflate(R.layout.music_card2,parent,false)
         return  MyViewHolder(topsongsview)
     }
 

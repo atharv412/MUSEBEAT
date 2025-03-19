@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.Manifest
 import android.annotation.SuppressLint
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.navbottomtest.adapter.CategoryAdapter
 import com.example.navbottomtest.adapter.OfflineSongsAdapter
@@ -25,6 +28,7 @@ import com.example.navbottomtest.models.OfflineSongsModel
 import com.example.navbottomtest.models.SongHistoryModel
 import com.example.navbottomtest.models.SongModel
 import com.example.navbottomtest.models.UserModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.query.Columns
@@ -55,15 +59,34 @@ class Home:Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val rootview = inflater.inflate(R.layout.home_fragment, container, false)
 //
         val settingsbtn = rootview.findViewById<ImageView>(R.id.settings_icon)
+        val greetText=rootview.findViewById<TextView>(R.id.home_greetingtxt)
+        val homeSearch=rootview.findViewById<LinearLayout>(R.id.home_searchBar)
         swipeRefreshLayout=rootview.findViewById<SwipeRefreshLayout>(R.id.mainSwipeRefreshLayout)
 
+        CoroutineScope(Dispatchers.IO).launch {
+            val userName=supaClient.auth.retrieveUserForCurrentSession(updateSession = true).email.toString()
+            withContext(Dispatchers.Main){
+                greetText.text="Hello ${userName}"
+            }
+        }
+
+        homeSearch.setOnClickListener {
+            val searchFrag = Search()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, searchFrag)
+//                .addToBackStack(null)
+                .commit()
+            val menuItems = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+            menuItems.selectedItemId = R.id.navSearch
+        }
 
         settingsbtn.setOnClickListener {
             val intent = Intent(context, Settings::class.java)
@@ -219,8 +242,13 @@ class Home:Fragment() {
             }.decodeList<SongHistoryModel>()
             //[SongHistoryModel(id=2, user_id=5, song_id=1), SongHistoryModel(id=3, user_id=5, song_id=6), SongHistoryModel(id=4, user_id=5, song_id=13)]
 
+//            if (userHistory.isEmpty()){
+//                withContext(Dispatchers.Main){
+//                    Toast.makeText(context,)
+//                }
+//            }
             println(userHistory)
-            val songIds = userHistory.map { it.song_id }.reversed().take(10)
+            val songIds = userHistory.map { it.song_id }.reversed().take(9)
                 println("songsbased on song_id of user_history$songIds")
 
             if (songIds.isNotEmpty()) {
@@ -229,7 +257,7 @@ class Home:Fragment() {
                         .select{
                             filter {  eq("id", songId) }
                         }
-                        .decodeSingle<SongModel>() // Fetch one song at a time
+                        .decodeSingleOrNull<SongModel>() // Fetch one song at a time
                 }
                 println("songs fetched  from user_history"+songs)
                 withContext(Dispatchers.Main){
@@ -240,11 +268,11 @@ class Home:Fragment() {
         }
     }
 
-    private fun setupUserHistory(userHistorySongList: List<SongModel>, rootView: View){
+    private fun setupUserHistory(userHistorySongList: List<SongModel?>, rootView: View){
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.user_history_recycler)
         userHistoryAdapter = UserHistoryAdapter(userHistorySongList)
         recyclerView.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            GridLayoutManager(context, 3,LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = userHistoryAdapter
 
     }

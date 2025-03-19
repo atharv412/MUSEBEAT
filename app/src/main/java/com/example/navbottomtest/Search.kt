@@ -1,5 +1,6 @@
 package com.example.navbottomtest
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.navbottomtest.adapter.SearchAdapter
 import com.example.navbottomtest.adapter.SearchCategoryAdapter
 import com.example.navbottomtest.adapter.UserHistoryAdapter
+import com.example.navbottomtest.adapter.UserSearchHistoryAdapter
 import com.example.navbottomtest.models.CategoryModel
 import com.example.navbottomtest.models.SongHistoryModel
 import com.example.navbottomtest.models.SongModel
@@ -39,7 +41,7 @@ class Search:Fragment() {
     private val supaClient=SupabaseClientProvider.client
     private  var searchJob:Job?=null
     private lateinit var username:String
-    private lateinit var userHistoryAdapter: UserHistoryAdapter
+    private lateinit var userHistoryAdapter: UserSearchHistoryAdapter
 
 
     override fun onCreateView(
@@ -60,7 +62,7 @@ class Search:Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 println(s)
-                val userHistoryRecycler = rootview.findViewById<RecyclerView>(R.id.userSearchHistory)
+                val userHistoryRecycler = rootview.findViewById<LinearLayout >(R.id.user_history_layout)
                 val tempTitle=rootview.findViewById<TextView>(R.id.temp_text)
                 if (s.isNullOrEmpty()) {
                     // Show user history when input is empty
@@ -105,18 +107,19 @@ class Search:Fragment() {
         return rootview
     }
 
-    private fun getSearchSongs(rootView: View,query:String)
+    @SuppressLint("SuspiciousIndentation")
+    private fun getSearchSongs(rootView: View, query:String)
     {
         CoroutineScope(Dispatchers.IO).launch {
             val responses = supaClient.from("songs").select {
-                    filter {
-                        or {
+                filter {
+                    or {
                         ilike("song_name", "%$query%")
-                        ilike("artist_name","%$query%")
-                        ilike("song_movie","%$query%")
-                        }
+                        ilike("artist_name", "%$query%")
+                        ilike("song_movie", "%$query%")
                     }
                 }
+            }
                 .decodeList<SongModel>()//TODO: create a model for the song or use the song model
                 println(responses)
             withContext(Dispatchers.Main){
@@ -216,7 +219,7 @@ class Search:Fragment() {
     }
     private  fun setupUserSearchHistory(rootView: View,userHistorySongList:List<SongModel>){
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.userSearchHistory)
-        userHistoryAdapter = UserHistoryAdapter(userHistorySongList)
+        userHistoryAdapter = UserSearchHistoryAdapter(userHistorySongList)
         recyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = userHistoryAdapter

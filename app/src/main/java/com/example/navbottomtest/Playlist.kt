@@ -2,6 +2,8 @@ package com.example.navbottomtest
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +22,7 @@ import com.example.navbottomtest.models.SongModel
 import com.example.navbottomtest.models.UserModel
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.postgrest.query.Count
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,6 +33,7 @@ class Playlist:Fragment() {
     private val supaClient = SupabaseClientProvider.client
     private lateinit var songSelectionAdapter: CreatePlayListAdapter
     private lateinit var playlistAdapter:PlaylistAdapter
+    private var cachedShuffledSongs: List<SongModel> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,11 +65,32 @@ class Playlist:Fragment() {
         val editTextPlaylistName = dialogView.findViewById<EditText>(R.id.editPlaylistName)
         val btnCreate = dialogView.findViewById<Button>(R.id.btnCreatePlaylist)
         val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
-
         // Load Songs into RecyclerView (Optional: Let user select songs)
+        val playlistSearchInput=dialogView.findViewById<EditText>(R.id.search_song_for_playlist)
 
-        getSongsForPlaylists(dialogView)
+            getSongsForPlaylists(dialogView)
 
+            playlistSearchInput.addTextChangedListener(object :TextWatcher{
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                   println(p0)
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    println("text when finding songs from playlist${s}")
+                    if(s.isNullOrEmpty())
+                    {
+                        setupSongSelector(cachedShuffledSongs,dialogView)
+                    }
+                    else{
+                        getSearchSongsForPlaylist(dialogView,s.toString())
+
+                    }
+                }
+                override fun afterTextChanged(p0: Editable?) {
+                    println(p0)
+                }
+
+            })
         // Handle Create Button Click
         btnCreate.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
@@ -110,9 +135,7 @@ class Playlist:Fragment() {
                 .select {
                     filter {
                         eq("user_id", response.id.toString())
-
                     }
-
                 }
                 .decodeList<PlaylistModel>()
 
@@ -153,10 +176,35 @@ class Playlist:Fragment() {
                 .decodeList<SongModel>()
 //            println("Songs for playlist are as follows $songs")
             withContext(Dispatchers.Main){
-                setupSongSelector(songs.shuffled().take(10),rootView)
+                cachedShuffledSongs=songs.shuffled().take(10)
+                val shuffledSongs:List<SongModel> = songs.shuffled().take(10)
+                setupSongSelector(shuffledSongs,rootView)
             }
         }
     }
+
+    private fun getSearchSongsForPlaylist(rootView: View, query:String)
+    {
+        CoroutineScope(Dispatchers.IO).launch {
+            val responses = supaClient.from("songs").select {
+                filter {
+                    or {
+                        ilike("song_name", "%$query%")
+                        ilike("artist_name", "%$query%")
+                        ilike("song_movie", "%$query%")
+                    }
+                }
+            }
+                .decodeList<SongModel>()//TODO: create a model for the song or use the song model
+            println(responses)
+            withContext(Dispatchers.Main){
+                //TODO: call the setupSearchAdapterRecyclerView() to setup adapter to the view
+                setupSongSelector(responses,rootView)
+                //TODO :send the response as a parameter
+            }
+        }
+    }
+
 
     private fun setupSongSelector(songsList: List<SongModel>, rootView: View){
         val recyclerViewSongs = rootView.findViewById<RecyclerView>(R.id.recyclerViewSongs)

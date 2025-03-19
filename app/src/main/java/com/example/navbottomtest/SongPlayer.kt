@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Color
+import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -68,7 +69,7 @@ class SongPlayer:AppCompatActivity() {
         val playerview=findViewById<PlayerView>(R.id.player_view)
         val back=findViewById<ImageButton>(R.id.backButton)
         val download=findViewById<ImageView>(R.id.download_button)
-
+        val volume=findViewById<ImageView>(R.id.volumeCntrl)
 
         Exoplayer.getCurrentSong()?.apply {
 
@@ -100,6 +101,14 @@ class SongPlayer:AppCompatActivity() {
             finish()
         }
 
+        volume.setOnClickListener {
+            val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+            audioManager.adjustStreamVolume(
+                AudioManager.STREAM_MUSIC,
+                AudioManager.ADJUST_SAME,
+                AudioManager.FLAG_SHOW_UI
+            )
+        }
         download.setOnClickListener {
             val currentsong=Exoplayer.getCurrentSong()!!
 

@@ -15,25 +15,22 @@ import com.example.navbottomtest.Exoplayer
 import com.example.navbottomtest.R
 import com.example.navbottomtest.SongPlayer
 import com.example.navbottomtest.SupabaseClientProvider
-import com.example.navbottomtest.models.SongHistoryModel
 import com.example.navbottomtest.models.SongModel
-import io.github.jan.supabase.postgrest.from
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-class UserHistoryAdapter(private  val playedSongs: List<SongModel>):
+class UserHistoryAdapter(private val playedSongs: List<SongModel?>):
 RecyclerView.Adapter<UserHistoryAdapter.MyViewHolder>(){
     class  MyViewHolder(private  val playedSongsView:View):
             RecyclerView.ViewHolder(playedSongsView){
 
-                private val playedSongName:TextView=itemView.findViewById(R.id.name_text_view)
+                private val playedSongName:TextView=itemView.findViewById(R.id.musicTitle)
                 private val playedSongsCoverImage:ImageView=itemView.findViewById(R.id.cover_image_view)
+                private val playedSongsArtistName:TextView=itemView.findViewById(R.id.name_text_view)
                 private val client= SupabaseClientProvider.client
 
 
                 fun bindData(playedSong:SongModel){
                     playedSongName.text=playedSong.song_name
+                    playedSongsArtistName.text=playedSong.artist_name
                     Glide.with(playedSongsCoverImage).load(playedSong.cover_image)
                         .apply(
                             RequestOptions().transform(RoundedCorners(32))
@@ -48,7 +45,7 @@ RecyclerView.Adapter<UserHistoryAdapter.MyViewHolder>(){
             }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val recentlyPlayedView=LayoutInflater.from(parent.context).inflate(R.layout.category_recycler_row_item,parent,false)
+        val recentlyPlayedView=LayoutInflater.from(parent.context).inflate(R.layout.homemusic_item,parent,false)
         return  MyViewHolder(recentlyPlayedView)
     }
 
@@ -57,6 +54,6 @@ RecyclerView.Adapter<UserHistoryAdapter.MyViewHolder>(){
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bindData(playedSongs[position])
+        playedSongs[position]?.let { holder.bindData(it) }
     }
 }
