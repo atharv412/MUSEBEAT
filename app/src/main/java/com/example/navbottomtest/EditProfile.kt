@@ -29,7 +29,7 @@ class EditProfile:AppCompatActivity() {
 
         val userFirstName=findViewById<EditText>(R.id.first_name)
         val userLastName=findViewById<EditText>(R.id.last_name)
-        val userMobileNo=findViewById<EditText>(R.id.mobile_number)
+//        val userMobileNo=findViewById<EditText>(R.id.mobile_number)
         val userCountry=findViewById<EditText>(R.id.country)
 
         val back=findViewById<ImageButton>(R.id.backButton)

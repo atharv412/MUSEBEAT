@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.navbottomtest.adapter.CreatePlayListAdapter
 import com.example.navbottomtest.adapter.PlaylistAdapter
+import com.example.navbottomtest.models.CategoryModel
 import com.example.navbottomtest.models.PlaylistModel
 import com.example.navbottomtest.models.SongModel
 import com.example.navbottomtest.models.UserModel
@@ -34,6 +35,9 @@ class Playlist:Fragment() {
     private lateinit var songSelectionAdapter: CreatePlayListAdapter
     private lateinit var playlistAdapter:PlaylistAdapter
     private var cachedShuffledSongs: List<SongModel> = emptyList()
+    companion object{
+        lateinit var PlaylistTopSlider: SongModel
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,7 +70,7 @@ class Playlist:Fragment() {
         val btnCreate = dialogView.findViewById<Button>(R.id.btnCreatePlaylist)
         val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
         // Load Songs into RecyclerView (Optional: Let user select songs)
-        val playlistSearchInput=dialogView.findViewById<EditText>(R.id.search_song_for_playlist)
+        val playlistSearchInput=dialogView.findViewById<EditText>(R.id.search_song_for_playlist);
 
             getSongsForPlaylists(dialogView)
 

@@ -9,6 +9,7 @@
     tools:context=".MainActivity">
 
     <!-- Title: "Your Playlists" -->
+
     <TextView
         android:id="@+id/txtTitle"
         android:layout_width="wrap_content"
@@ -23,6 +24,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <!-- Search/filter text field -->
+
     <EditText
         android:id="@+id/editTextFilter"
         android:layout_width="0dp"

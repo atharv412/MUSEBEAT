@@ -29,48 +29,49 @@
 
 
     <!-- Profile Image Container -->
-    <RelativeLayout
-        android:id="@+id/profile_image_container"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/title"
-        android:layout_marginTop="16dp">
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/profile_image_container"-->
+<!--        android:layout_width="120dp"-->
+<!--        android:layout_height="120dp"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_below="@id/title"-->
+<!--        android:layout_marginTop="16dp">-->
 
-        <!-- Profile Image -->
-        <ImageView
-            android:id="@+id/profile_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/round_account_white_circle_24"
-            android:scaleType="centerCrop"
-            android:contentDescription="Profile Image"
-            android:elevation="4dp" />
+<!--        &lt;!&ndash; Profile Image &ndash;&gt;-->
+<!--&lt;!&ndash;        <ImageView&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/profile_image"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:src="@drawable/round_account_white_circle_24"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:scaleType="centerCrop"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:contentDescription="Profile Image"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:elevation="4dp" />&ndash;&gt;-->
 
-        <!-- Camera Icon (Overlapping) -->
-        <ImageView
-            android:id="@+id/camera_icon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="7dp"
-            android:layout_marginBottom="82dp"
-            android:contentDescription="Edit Profile Picture"
-            android:elevation="8dp"
-            android:src="@drawable/baseline_camera_alt_24" />
-    </RelativeLayout>
+<!--        &lt;!&ndash; Camera Icon (Overlapping) &ndash;&gt;-->
+<!--        <ImageView-->
+<!--            android:id="@+id/camera_icon"-->
+<!--            android:layout_width="35dp"-->
+<!--            android:layout_height="35dp"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:layout_marginEnd="7dp"-->
+<!--            android:layout_marginBottom="82dp"-->
+<!--            android:contentDescription="Edit Profile Picture"-->
+<!--            android:elevation="8dp"-->
+<!--            android:src="@drawable/baseline_camera_alt_24" />-->
+<!--    </RelativeLayout>-->
 
     <!-- Input Fields -->
     <LinearLayout
         android:id="@+id/input_fields_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/profile_image_container"
-        android:layout_marginTop="16dp"
-        android:orientation="vertical">
+        android:layout_below="@id/title"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical"
+        >
 
         <!-- First Name -->
         <TextView
@@ -114,25 +115,25 @@
             android:textColorHint="@color/pink"
             android:textSize="16sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Mobile No."
-            android:textColor="#D3D3D3"
-            android:textSize="20sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="8dp" />
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Mobile No."-->
+<!--            android:textColor="#D3D3D3"-->
+<!--            android:textSize="20sp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:layout_marginBottom="8dp" />-->
 
-        <EditText
-            android:id="@+id/mobile_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="+91 0000000000"
-            android:textColor="#FFFFFF"
-            android:textColorHint="@color/pink"
-            android:background="@drawable/edit_text_background"
-            android:padding="12dp"
-            android:textSize="16sp" />
+<!--        <EditText-->
+<!--            android:id="@+id/mobile_number"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="+91 0000000000"-->
+<!--            android:textColor="#FFFFFF"-->
+<!--            android:textColorHint="@color/pink"-->
+<!--            android:background="@drawable/edit_text_background"-->
+<!--            android:padding="12dp"-->
+<!--            android:textSize="16sp" />-->
 
 
         <TextView

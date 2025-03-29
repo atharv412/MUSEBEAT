@@ -250,6 +250,13 @@
                 android:textColor="#95A9ED"
                 android:textSize="14sp"
                 android:gravity="center" />
+            <TextView
+                android:id="@+id/country"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Country"
+                android:textColor="#95A9ED"
+                android:textSize="14sp" />
         </LinearLayout>
 
 <!--        &lt;!&ndash; Icons Row &ndash;&gt;-->
@@ -328,35 +335,7 @@
 <!--        </LinearLayout>-->
 
         <!-- Info Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="16dp">
-            <TextView
-                android:id="@+id/mobile_no"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Mobile no"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:background="@drawable/edit_text_background"
-                android:padding="12dp"
-                android:layout_marginVertical="5dp"
-                android:textSize="19sp" />
 
-            <TextView
-                android:id="@+id/country"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Country"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:background="@drawable/edit_text_background"
-                android:padding="12dp"
-                android:layout_marginVertical="10dp"
-                android:textSize="19sp" />
-        </LinearLayout>
 
         <!-- Edit Profile Button -->
         <Button

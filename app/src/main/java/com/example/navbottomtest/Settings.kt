@@ -56,10 +56,10 @@ class Settings:AppCompatActivity() {
         back.setOnClickListener{
             finish()
         }
-//        userProfile.setOnClickListener{
-//            val intent=Intent(this@Settings,Profile::class.java)
-//            startActivity(intent)
-//        }
+        userProfile.setOnClickListener{
+            val intent=Intent(this@Settings,Profile::class.java)
+            startActivity(intent)
+        }
 
         logout.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {

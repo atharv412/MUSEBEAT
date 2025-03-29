@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_margin="8dp"
+    android:radius="16dp"
+    app:cardCornerRadius="16dp"
+    app:cardBackgroundColor="#1E1E1E">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Background Image -->
+        <ImageView
+            android:id="@+id/slider_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/welcome_icon_removebg"/>
+
+        <!-- Gradient Overlay -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_overlay"/>
+
+        <!-- Song Title -->
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="For A While"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_margin="16dp"/>
+
+        <!-- Subtitle -->
+        <TextView
+            android:id="@+id/tv_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Aubrey Lauren"
+            android:textSize="16sp"
+            android:textColor="#CCCCCC"
+            android:textStyle="bold"
+            android:layout_below="@id/tv_title"
+            android:layout_marginStart="16dp"/>
+
+        <!-- Trending Icon + Plays -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/tv_subtitle"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp">
+
+        </LinearLayout>
+
+        <!-- Play Button -->
+        <Button
+            android:id="@+id/btn_play"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Play Now"
+            android:backgroundTint="#6366F1"
+            android:textColor="#FFFFFF"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dp"/>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

@@ -31,6 +31,8 @@ class Profile: AppCompatActivity() {
 //        val userLastname = findViewById<EditText>(R.id.last_name)
         val userEmail = findViewById<TextView>(R.id.email)
         val userCountry = findViewById<TextView>(R.id.country)
+
+
         val back=findViewById<ImageButton>(R.id.backButton)
         val editBtn=findViewById<Button>(R.id.edit_profile_btn)
         var userId:Int?=0
@@ -39,6 +41,7 @@ class Profile: AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
 
             user = session.auth.retrieveUserForCurrentSession(updateSession = true)
+
             val u_email = user.email
             val db_user = session.from("user").select{
                 filter {
@@ -81,4 +84,6 @@ class Profile: AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+
 }

@@ -11,7 +11,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.navbottomtest"
+        applicationId = "com.example.MUSEBEAT"
         minSdk = 33
         //noinspection EditedTargetSdkVersion
         targetSdk = 35

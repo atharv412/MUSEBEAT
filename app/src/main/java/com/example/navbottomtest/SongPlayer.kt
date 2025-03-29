@@ -21,12 +21,29 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.annotation.OptIn
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.navbottomtest.adapter.AddToPlaylistAdapter
+import com.example.navbottomtest.adapter.PlaylistAdapter
+import com.example.navbottomtest.models.PlaylistModel
 import com.example.navbottomtest.models.SongModel
+import com.example.navbottomtest.models.UserModel
+import io.github.jan.supabase.auth.auth
+import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,6 +59,11 @@ class SongPlayer:AppCompatActivity() {
     private lateinit var playbackStateBuilder: PlaybackStateCompat.Builder
     lateinit var exoPlayer: ExoPlayer
     private lateinit var mediaNotificationManager: MediaNotificationManager
+    private val supaClient = SupabaseClientProvider.client
+//    private lateinit var playlistAdapter: PlaylistAdapter
+    private lateinit var addToPlaylistAdapter: AddToPlaylistAdapter
+
+
 
     private var  playerListener= object : Player.Listener {
         override fun onIsPlayingChanged(isPlaying: Boolean) {
@@ -70,6 +92,7 @@ class SongPlayer:AppCompatActivity() {
         val back=findViewById<ImageButton>(R.id.backButton)
         val download=findViewById<ImageView>(R.id.download_button)
         val volume=findViewById<ImageView>(R.id.volumeCntrl)
+        val addToPlaylist=findViewById<ImageView>(R.id.add_to_playlist)
 
         Exoplayer.getCurrentSong()?.apply {
 
@@ -115,7 +138,77 @@ class SongPlayer:AppCompatActivity() {
             downloadFileFromSupabase(this@SongPlayer,currentsong.song_url,currentsong.song_name)
 
         }
+        addToPlaylist.setOnClickListener {
+            showAddToPlaylistDialog()
+        }
 
+    }
+
+    @OptIn(UnstableApi::class)
+    private  fun showAddToPlaylistDialog(){
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.playlist_creator, null)
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setCancelable(true)
+            .create()
+        val btnCreate = dialogView.findViewById<Button>(R.id.btnCreatePlaylist)
+        val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
+        val playlistTag=dialogView.findViewById<TextView>(R.id.txtSelectSongs)
+        val playlistSearchInput=dialogView.findViewById<EditText>(R.id.search_song_for_playlist)
+        val editTextPlaylistName = dialogView.findViewById<EditText>(R.id.editPlaylistName)
+        editTextPlaylistName.visibility=View.GONE
+        playlistTag.text = "Select Playlist to add the song to "
+        getPlaylists(dialogView)
+//        playlistSearchInput.addTextChangedListener(object :TextWatcher{
+//            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//                println(p0)
+//            }
+//
+//            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun afterTextChanged(p0: Editable?) {
+//                TODO("Not yet implemented")
+//            }
+//        })
+        btnCreate.setOnClickListener {
+            // TODO: add the song to the selected playlist
+            CoroutineScope(Dispatchers.IO).launch {
+                val selectedPlaylists=addToPlaylistAdapter.getSelectedPlaylists()
+                println("PLAYLIST WILL BE ADDED TO THESE PLAYLISTS "+selectedPlaylists)
+                val currentUser = supaClient.auth.currentSessionOrNull()?.user?.email.toString()
+                val response = supaClient.from("user")
+                    .select {
+                        filter {
+                            eq("user_email", currentUser)
+                        }
+                    }
+                    .decodeSingle<UserModel>()
+                val id=response.id
+                val songId= Exoplayer.getCurrentSong()?.id
+                val columns= selectedPlaylists.map {name->
+                    PlaylistModel(
+                        playlist_name = name,
+                        song_id = songId!!,
+                        user_id = id)
+                }
+                println(" values to be inserted in playlist are as follows: $columns")
+
+                Log.d("atharva","values to be inserted are as follows $columns")
+
+                val createdPLaylist=supaClient
+                    .from("user_playlist")
+                    .insert(columns)
+
+                if (createdPLaylist.data.isNotEmpty()) {
+                    Log.d("atharva", "playlist created ")
+                }
+            }
+            dialog.dismiss()
+        }
+        btnCancel.setOnClickListener { dialog.dismiss() }
+        dialog.show()
     }
 
     fun saveFileToDownloads(context: Context, fileName: String, inputStream: InputStream) {
@@ -166,6 +259,53 @@ class SongPlayer:AppCompatActivity() {
             }
 
         }
+    }
+
+    private  fun getPlaylists(rootView: View){
+        CoroutineScope(Dispatchers.IO).launch {
+            val currentUser = supaClient.auth.currentSessionOrNull()?.user?.email.toString()
+
+            val response = supaClient.from("user")
+                .select {
+                    filter {
+                        eq("user_email", currentUser)
+                    }
+
+                }
+                .decodeSingle<UserModel>()
+
+            val playlists = supaClient.from("user_playlist")
+                .select {
+                    filter {
+                        eq("user_id", response.id.toString())
+                    }
+                }
+                .decodeList<PlaylistModel>()
+
+            //METHOD 1
+            val groupedPlaylists = playlists
+                .groupBy { it.playlist_name }
+                .mapValues { it.value.map { song -> song.song_id } }
+
+            //METHOD 2
+//            val groupedPlaylists=playlists
+//                .groupBy { it.playlist_name }
+//            val simplifiedPlaylists = groupedPlaylists
+//                .mapValues { (_, songs) ->
+//                    songs.map { it.song_id }
+//                }
+            println("the grouped  list is $groupedPlaylists")
+            withContext(Dispatchers.Main){
+                setupPlaylistList(rootView,groupedPlaylists)
+            }
+
+        }
+    }
+    private fun setupPlaylistList(rootView: View, playlistNameList:Map<String,List<Int>>){
+        val recyclerView=rootView.findViewById<RecyclerView>(R.id.recyclerViewSongs)
+        addToPlaylistAdapter=AddToPlaylistAdapter(playlistNameList)
+        recyclerView.layoutManager=LinearLayoutManager(rootView.context,LinearLayoutManager.VERTICAL,false)
+        recyclerView.adapter=addToPlaylistAdapter
     }
 
     private fun setupMediaSession(){

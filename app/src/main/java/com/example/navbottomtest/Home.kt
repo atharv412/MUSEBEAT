@@ -15,13 +15,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.Manifest
 import android.annotation.SuppressLint
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.example.navbottomtest.adapter.CategoryAdapter
 import com.example.navbottomtest.adapter.OfflineSongsAdapter
 import com.example.navbottomtest.adapter.TopSongsAdapter
+import com.example.navbottomtest.adapter.TrendingSongsAdapter
 import com.example.navbottomtest.adapter.UserHistoryAdapter
 import com.example.navbottomtest.models.CategoryModel
 import com.example.navbottomtest.models.OfflineSongsModel
@@ -32,10 +38,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.query.Columns
+import io.github.jan.supabase.postgrest.query.Order
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.example.navbottomtest.Playlist.Companion.PlaylistTopSlider
+import com.example.navbottomtest.adapter.PopularSongAdapter
 
 class Home:Fragment() {
 
@@ -43,6 +52,8 @@ class Home:Fragment() {
     private lateinit var topSongsAdapter: TopSongsAdapter
     private lateinit var offlineSongsAdapter: OfflineSongsAdapter
     private lateinit var userHistoryAdapter: UserHistoryAdapter
+    private lateinit var trendingSongsAdapter:TrendingSongsAdapter
+    private lateinit var popularSongAdapter: PopularSongAdapter
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     private val supaClient = SupabaseClientProvider.client
@@ -98,6 +109,7 @@ class Home:Fragment() {
             requestAudioPermissions()
             getCategories(rootview)
             getTopSongs(rootview)
+            getTrendingSongs(rootview)
             getAudioFiles(requireContext(), rootview)
             getUserHistory(rootview)
 
@@ -107,6 +119,7 @@ class Home:Fragment() {
         requestAudioPermissions()
         getCategories(rootview)
         getTopSongs(rootview)
+        getTrendingSongs(rootview)
         getAudioFiles(requireContext(), rootview)
         getUserHistory(rootview)
 //        Log.d("atharva", "Adapter is set: ${rootview.findViewById<RecyclerView>(R.id.categories_recycler_view).adapter}")
@@ -142,7 +155,6 @@ class Home:Fragment() {
 //        Log.d("atharva", "Adapter is set: ${recyclerView.adapter!=null}")
     }
 
-
     private fun getTopSongs(rootView: View) {
         CoroutineScope(Dispatchers.IO).launch {
             val topsongs = supaClient.from("songs")
@@ -157,6 +169,10 @@ class Home:Fragment() {
 
                 val randomSongs = topsongs.shuffled().take(10)
                 println("random songs are as follows" + randomSongs)
+                val sliderSong= topsongs.shuffled().take(1)[0]
+                println("the song for the top song is "+sliderSong)
+                PlaylistTopSlider=topsongs.shuffled().take(1)[0]
+                setupTopSlider(sliderSong,rootView)
                 setupTopsongsRecyclerView(randomSongs, rootView)
             }
         }
@@ -170,7 +186,62 @@ class Home:Fragment() {
         recyclerView.adapter = topSongsAdapter
     }
 
-    fun getAudioFiles(context: Context, rootView: View) {
+    private  fun getTrendingSongs(rootView: View){
+        CoroutineScope(Dispatchers.IO).launch {
+            val trendingsongs=supaClient.from("songs")
+                .select{
+                    limit(50)
+                    order("artist_name", order = Order.ASCENDING,nullsFirst = true)
+
+                }
+                .decodeList<SongModel>()
+            println("the trending sonngs are a:::::"+trendingsongs)
+            withContext(Dispatchers.Main){
+                val trending=trendingsongs.take(10)
+                val popular=trendingsongs.shuffled().take(10)
+                println("trending songs are as follows" + trending)
+                println("popular songs are as follows" + popular)
+                setupPopularSongsRecyclerView(popular,rootView)
+                setupTrendingSongsRecyclerView(trending,rootView)
+            }
+        }
+    }
+
+    private  fun setupTrendingSongsRecyclerView(trendingSongsList:List<SongModel>,rootView: View){
+        val recyclerView=rootView.findViewById<RecyclerView>(R.id.trending_songs_recycler)
+        trendingSongsAdapter=TrendingSongsAdapter(trendingSongsList)
+        recyclerView.layoutManager=LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+        recyclerView.adapter=trendingSongsAdapter
+    }
+
+    private fun setupPopularSongsRecyclerView(popularSongsList:List<SongModel>,rootView: View){
+        val recyclerView=rootView.findViewById<RecyclerView>(R.id.popular_songs_recycler)
+        popularSongAdapter= PopularSongAdapter(popularSongsList)
+        recyclerView.layoutManager=LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+        recyclerView.adapter=popularSongAdapter
+    }
+
+    private fun setupTopSlider(sliderSong:SongModel,rootView: View) {
+        val sliderImage=rootView.findViewById<ImageView>(R.id.slider_image)
+        val sliderSongName=rootView.findViewById<TextView>(R.id.tv_title)
+        val sliderSongArtist=rootView.findViewById<TextView>(R.id.tv_subtitle)
+        val sliderPlayButton=rootView.findViewById<Button>(R.id.btn_play)
+
+        sliderSongName.text=sliderSong.song_name
+        sliderSongArtist.text=sliderSong.artist_name
+        Glide.with(sliderImage).load(sliderSong.cover_image)
+            .apply(
+                RequestOptions().transform(RoundedCorners(32))
+            )
+            .into(sliderImage)
+
+        sliderPlayButton.setOnClickListener {
+            Exoplayer.startSong(it.context,sliderSong)
+            it.context.startActivity(Intent(it.context, SongPlayer::class.java))
+        }
+    }
+
+    private fun getAudioFiles(context: Context, rootView: View) {
         val songList = mutableListOf<OfflineSongsModel>()
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(
@@ -232,7 +303,8 @@ class Home:Fragment() {
                 }
                 .decodeSingle<UserModel>()
 
-            val userHistory = supaClient.from("user_history").select(columns = Columns
+            val userHistory = supaClient.from("user_history").select(
+                columns = Columns
                     .raw("id,user_id,song_id,songs(id,song_name,song_url,artist_name,song_movie,song_releasing_date,song_category,cover_image)".trimIndent())
             ) {
                 filter {
@@ -242,27 +314,33 @@ class Home:Fragment() {
             }.decodeList<SongHistoryModel>()
             //[SongHistoryModel(id=2, user_id=5, song_id=1), SongHistoryModel(id=3, user_id=5, song_id=6), SongHistoryModel(id=4, user_id=5, song_id=13)]
 
-//            if (userHistory.isEmpty()){
-//                withContext(Dispatchers.Main){
-//                    Toast.makeText(context,)
-//                }
-//            }
-            println(userHistory)
-            val songIds = userHistory.map { it.song_id }.reversed().take(9)
+            if (userHistory.isEmpty()) {
+                withContext(Dispatchers.Main) {
+                    val recyclerView =
+                        rootView.findViewById<RecyclerView>(R.id.recently_played_recycler)
+                    val emptyTextView = rootView.findViewById<TextView>(R.id.empty_history_message)
+                    emptyTextView.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
+                }
+
+            } else {
+                println(userHistory)
+                val songIds = userHistory.map { it.song_id }.reversed().take(9)
                 println("songsbased on song_id of user_history$songIds")
 
-            if (songIds.isNotEmpty()) {
-                val songs = songIds.map { songId ->
-                    supaClient.from("songs")
-                        .select{
-                            filter {  eq("id", songId) }
-                        }
-                        .decodeSingleOrNull<SongModel>() // Fetch one song at a time
-                }
-                println("songs fetched  from user_history"+songs)
-                withContext(Dispatchers.Main){
+                if (songIds.isNotEmpty()) {
+                    val songs = songIds.map { songId ->
+                        supaClient.from("songs")
+                            .select {
+                                filter { eq("id", songId) }
+                            }
+                            .decodeSingleOrNull<SongModel>() // Fetch one song at a time
+                    }
+                    println("songs fetched  from user_history" + songs)
+                    withContext(Dispatchers.Main) {
 
-                    setupUserHistory(songs,rootView)
+                        setupUserHistory(songs, rootView)
+                    }
                 }
             }
         }

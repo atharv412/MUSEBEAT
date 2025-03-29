@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+            <androidx.cardview.widget.CardView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                app:cardCornerRadius="16dp"
+                android:layout_margin="10dp"
+                app:cardElevation="8dp"
+                android:layout_marginEnd="12dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient_bg1">
+
+                    <!-- Inner Box (Bottom Text & Play Button) -->
+                        <ImageView
+                            android:id="@+id/popular_song_cover"
+                            android:layout_width="match_parent"
+                            android:layout_height="170dp"
+                            android:scaleType="centerCrop"
+                            />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@drawable/inner_box_bg"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="8dp">
+
+                        <!-- Song Title -->
+                        <TextView
+                            android:id="@+id/popular_song_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Lorem Ipsum"
+                            android:maxLines="1"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold"
+                            android:textSize="15sp"/>
+
+                        <!-- Play Button -->
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/round_play_arrow_white_24"
+                            app:tint="#FFFFFF" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Second Trending Card -->
+

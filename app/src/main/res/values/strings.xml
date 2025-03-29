@@ -26,4 +26,5 @@
     <string name="recently_played">Recently Played</string>
     <string name="top_songs">Top Songs</string>
     <string name="download_song">Download Song</string>
+    <string name="add_to_playlist">add to playlist</string>
 </resources>

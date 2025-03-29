@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/card1"
+        android:layout_width="160dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/radioImage1"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:src="@drawable/welcome_icon_removebg"
+            android:scaleType="centerCrop" />
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="40dp"-->
+<!--                android:layout_marginTop="170dp"-->
+<!--                android:text="SongNAme" />-->
+
+<!--                        <TextView-->
+<!--                android:id="@+id/radioTitle1"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Indian devotional radio • Sleep"-->
+<!--                android:textColor="#FFFFFF"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textSize="14sp"-->
+<!--                android:layout_marginStart="12dp"-->
+<!--                android:layout_marginTop="170dp"-->
+<!--                android:elevation="4dp"-->
+<!--                android:shadowColor="#000000"-->
+<!--                android:shadowDx="2"-->
+<!--                android:shadowDy="2"-->
+<!--                android:shadowRadius="4"-->
+<!--                android:maxLines="2"-->
+<!--                android:ellipsize="end" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/radioSubtext1"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="12dp"-->
+<!--                android:layout_marginTop="165dp"-->
+<!--                android:text="Indrani Bhattacherjee and Kuna Praveen"-->
+<!--                android:textColor="#B0B0B0"-->
+<!--                android:textSize="12sp" />-->
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/songNAme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="170dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:maxLines="1"
+            android:text="SongName" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- Radio Card 2 -->
+
+
